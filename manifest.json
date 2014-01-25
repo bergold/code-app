@@ -1,0 +1,26 @@
+{
+  "app": {
+    "background": {
+      "scripts": ["scripts/background.js"]
+    }
+  },
+  "manifest_version": 2,
+  "name": "CodeSocket",
+  "version": "0.0.1",
+
+  "default_locale": "en",
+  "description": "A simple Web-Development-Editor",
+  "icons": {...},
+    
+  "offline_enabled": true,
+  "permissions": [
+      {
+          "fileSystem": [
+              "write", 
+              "retainEntries", 
+              "directory"
+          ]
+      }
+  ],
+  "update_url": "http://path/to/updateInfo.xml"
+}
