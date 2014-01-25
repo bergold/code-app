@@ -1,26 +1,52 @@
 {
-  "app": {
-    "background": {
-      "scripts": ["scripts/background.js"]
-    }
-  },
-  "manifest_version": 2,
-  "name": "CodeSocket",
-  "version": "0.0.1",
+    "manifest_version": 2,
+    "name": "CodeSocket",
+    "version": "0.1",
 
-  "default_locale": "en",
-  "description": "A simple Web-Development-Editor",
-  "icons": {...},
+    "default_locale": "en",
+    "description": "A simple Web-Development-Editor",
+    // "update_url": "http://path/to/updateInfo.xml",
     
-  "offline_enabled": true,
-  "permissions": [
-      {
-          "fileSystem": [
-              "write", 
-              "retainEntries", 
-              "directory"
-          ]
-      }
-  ],
-  "update_url": "http://path/to/updateInfo.xml"
+    "app": {
+        "background": {
+            "scripts": ["scripts/background.js"]
+        }
+    },
+    
+    "icons": {
+        "16": "icon/16x16.png",
+        "32": "icon/32x32.png",
+        "48": "icon/48x48.png",
+        "64": "icon/64x64.png",
+        "96": "icon/96x96.png",
+        "128": "icon/128x128.png",
+        "256": "icon/256x256.png"
+    },
+    
+    "offline_enabled": true,
+    
+    "permissions": [
+        "clipboardRead",
+        "clipboardWrite",
+        "storage",
+        {
+            "fileSystem": [
+                "write", 
+                "retainEntries", 
+                "directory"
+            ]
+        },
+        {
+            "socket": [
+                "tcp-connect:*:*"
+            ]
+        }
+    ],
+    "file_handlers": {
+        "text": {
+            "title": "Code Editor",
+            "types": ["application/javascript", "application/json", "application/x-shellscript", "application/xml", "text/*"],
+            "extensions": ["coffee", "css", "htm", "html", "htmls", "js", "json", "manifest", "md", "shtml", "text", "textile", "txt", "xml", "yaml"]
+        }
+    }
 }
