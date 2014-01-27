@@ -1,0 +1,3 @@
+define(['storage'], function(storage) {
+    
+});

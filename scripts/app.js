@@ -1,6 +1,13 @@
 require.config({
-    baseUrl: 'scripts',
+    baseUrl: 'scripts/app',
     paths: {
-        jquery: 'libs/jquery.js'
+        lib: '../lib',
+        mode: '../mode'
     }
+});
+
+require(['lib/jquery', 'tabs'], function($, tabs) {
+    
+    
+    
 });
