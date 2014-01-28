@@ -1,6 +1,6 @@
 define(['lib/jquery', 'lib/codemirror', 'settings', 
-        'mode/clike', 'mode/css', 'mode/htmlmixed', 'mode/javascript', 
-        'mode/perl', 'mode/php', 'mode/ruby', 'mode/sql', 'mode/xml'], 
+        'mode/clike', 'mode/css', 'mode/htmlmixed', 'mode/javascript', 'mode/perl', 
+        'mode/php', 'mode/ruby', 'mode/sass', 'mode/sql', 'mode/xml'], 
        function($, codemirror, settings) {
     
     var editor = {
