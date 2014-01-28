@@ -20,7 +20,7 @@ define(function() {
     };
     
     return {
-        addListener: cmd.add.bind(cmd),
+        on: cmd.addListener.bind(cmd),
         trigger: cmd.trigger.bind(cmd)
     };
     
