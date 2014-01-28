@@ -6,7 +6,7 @@ require.config({
     }
 });
 
-require(['lib/jquery', 'tabs'], function($, tabs) {
+require(['lib/jquery', 'tabs', 'settings'], function($, tabs, settings) {
     
     
     

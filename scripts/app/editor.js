@@ -1,3 +1,3 @@
-define(['lib/codemirror'], function(codemirror) {
+define(['lib/codemirror', 'settings'], function(codemirror, settings) {
     
 });

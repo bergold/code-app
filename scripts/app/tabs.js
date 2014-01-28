@@ -1,3 +1,3 @@
-define(['project', 'communication'], function(project, cmd) {
+define(['project', 'editor', 'communication'], function(project, cmd) {
     
 });
