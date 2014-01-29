@@ -1,11 +1,11 @@
-define(['lib/jquery', 'lib/codemirror', 'settings', 
-        'mode/clike', 'mode/css', 'mode/htmlmixed', 'mode/javascript', 'mode/perl', 
-        'mode/php', 'mode/ruby', 'mode/sass', 'mode/sql', 'mode/xml'], 
+define(['lib/jquery', 'lib/codemirror', 'settings'], //, 
+        // 'mode/clike', 'mode/css', 'mode/htmlmixed', 'mode/javascript', 'mode/perl', 
+        // 'mode/php', 'mode/ruby', 'mode/sass', 'mode/sql', 'mode/xml'], 
        function($, codemirror, settings) {
     
     var editor = {
         
-        myEditor: codemirror($("#editor")),
+        myEditor: codemirror($("#editor")[0]),
         
         setDoc: function(doc, mode) {      // sets the document or creates a new one
             doc = typeof doc === "string" ? codemirror.Doc(doc, mode) : doc;
