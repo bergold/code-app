@@ -5,7 +5,7 @@ define(['lib/jquery', 'lib/codemirror', 'settings'], //,
     
     var editor = {
         
-        myEditor: codemirror($("#editor")[0]),
+        myEditor: codemirror($("#editor")[0], { lineNumbers: true }),
         
         setDoc: function(doc, mode) {      // sets the document or creates a new one
             doc = typeof doc === "string" ? codemirror.Doc(doc, mode) : doc;

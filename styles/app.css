@@ -1,3 +1,8 @@
+/* Defs:
+ * accent-color: 007AFF
+ */
+
+
 html, body {
     margin: 0;
     width: 100%;
@@ -12,34 +17,66 @@ html, body {
     width: 100%;
     height: 100%;
 }
+
 .sidebar {
     flex: initial;
     width: 250px;
     height: 100%;
-    background: #222;
 }
+
 .main {
     display: flex;
     flex-direction: column;
     flex: 1;
     height: 100%;
-    background: #eee;
 }
+
 .menubar {
     flex: initial;
     height: 50px;
-    background: #fff;
     -webkit-app-region: drag;
 }
+.menubar * {
+    -webkit-app-region: no-drag;
+}
+.menubar .entries {
+    display: block;
+    float: left;
+    margin: 0 16px;
+}
+.menubar .buttons {
+    display: block;
+    float: right;
+    margin: 0 16px;
+}
+
 .content {
     display: flex;
     flex: 1;
     position: relative;
 }
+
 .statusbar {
     flex: initial;
     height: 25px;
-    background: #ddd;
+}
+
+/* Colors
+======================== */
+.sidebar {
+    background: #222222;
+}
+.sidebar .menubar {
+    background: #1B1B1B;
+}
+.main {
+    background: #EEEEEE;
+}
+.main .menubar {
+    background: #FFFFFF;
+}
+.main .statusbar {
+    background: #DDDDDD;
 }
 
 /* Editor
@@ -48,6 +85,42 @@ html, body {
     position: absolute !important;
     top: 0;
     bottom: 0;
-    left: 0;
+    left: 16px;
     right: 0;
+}
+
+/* Menubar entries
+======================== */
+.entry {
+    display: inline-block;
+    height: 50px;
+    padding: 0 1.2em;
+    line-height: 50px;
+    text-align: center;
+    color: #222222;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.entry:hover {
+    color: #007AFF;
+}
+
+/* Buttons
+======================== */
+.btn {
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 8px 0;
+    width: 34px;
+    height: 34px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    line-height: 34px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+.btn:hover {
+    background: #F5F5F5;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }

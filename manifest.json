@@ -1,10 +1,10 @@
 {
     "manifest_version": 2,
-    "name": "CodeSocket",
+    "name": "__MSG_appName__",
     "version": "0.1",
 
     "default_locale": "en",
-    "description": "A simple Web-Development-Editor",
+    "description": "__MSG_appDesc__",
     // "update_url": "http://path/to/updateInfo.xml",
     
     "app": {
@@ -45,7 +45,7 @@
     ],
     "file_handlers": {
         "text": {
-            "title": "Code Editor",
+            "title": "__MSG_appName__",
             "types": ["application/javascript", "application/json", "application/x-shellscript", "application/xml", "text/*"],
             "extensions": ["coffee", "css", "htm", "html", "htmls", "js", "json", "manifest", "md", "shtml", "text", "textile", "txt", "xml", "yaml"]
         }
