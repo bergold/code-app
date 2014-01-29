@@ -70,7 +70,7 @@ html, body {
     background: #1B1B1B;
 }
 .main {
-    background: #EEEEEE;
+    background: #F5F5F5;
 }
 .main .menubar {
     background: #FFFFFF;
@@ -85,7 +85,7 @@ html, body {
     position: absolute !important;
     top: 0;
     bottom: 0;
-    left: 16px;
+    left: 28px;
     right: 0;
 }
 
