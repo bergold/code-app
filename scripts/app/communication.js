@@ -5,14 +5,15 @@ define(function() {
         buffer: {},
         
         addListener: function (a, b) {
-            if (undefined === buffer[a])
-                buffer[a] = [];
-            buffer[a].push(b);
+            if (undefined === this.buffer[a])
+                this.buffer[a] = [];
+            this.buffer[a].push(b);
         },
         
         trigger: function(a, b) {
-            var c = buffer[a] || [];
-            for (var i = 0; i < c.lenght; i++) {
+            console.log(this.buffer, a, this.buffer[a]);
+            var c = this.buffer[a] || [];
+            for (var i = 0; i < c.length; i++) {
                 c[i](b);
             }
         }
@@ -20,6 +21,7 @@ define(function() {
     };
     
     return {
+        buffer: cmd.buffer,
         on: cmd.addListener.bind(cmd),
         trigger: cmd.trigger.bind(cmd)
     };
