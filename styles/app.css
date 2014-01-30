@@ -98,7 +98,7 @@ html, body {
     line-height: 50px;
     text-align: center;
     color: #222222;
-    cursor: pointer;
+    cursor: default;
     transition: all 0.2s ease;
 }
 .entry:hover {

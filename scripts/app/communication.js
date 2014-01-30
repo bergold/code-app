@@ -11,7 +11,6 @@ define(function() {
         },
         
         trigger: function(a, b) {
-            console.log(this.buffer, a, this.buffer[a]);
             var c = this.buffer[a] || [];
             for (var i = 0; i < c.length; i++) {
                 c[i](b);

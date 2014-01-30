@@ -6,6 +6,14 @@ define(function() {
             
         },
         
+        restoreEntry: function() {
+            
+        },
+        
+        retainEntry: function() {
+            
+        },
+        
         readDir: function() {
             
         },
@@ -46,6 +54,8 @@ define(function() {
     
     return {
         chooseDir: lfile.chooseDir.bind(lfile),
+        restoreEntry: lfile.restoreEntry.bind(lfile),
+        retainEntry: lfile.retainEntry.bind(lfile),
         readDir: lfile.readDir.bind(lfile),
         createDir: lfile.createDir.bind(lfile),
         removeDir: lfile.removeDir.bind(lfile),
