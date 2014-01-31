@@ -35,6 +35,10 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
         
     };
     
+    cP.prototype.getEntryToPath = function(path) {
+        
+    };
+    
     cP.prototype.readFile = function() {
         
     };

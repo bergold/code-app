@@ -12,6 +12,10 @@ define(['lib/jquery', 'lib/codemirror', 'settings'], //,
             return this.myEditor.swapDoc(doc);
         },
         
+        newDoc: function(val, mode) {
+            codemirror.Doc(val, mode);
+        },
+        
         setTheme: function(theme) {          // sets the theme of the editor
             this.myEditor.setOption("theme", theme);
         },
@@ -25,6 +29,7 @@ define(['lib/jquery', 'lib/codemirror', 'settings'], //,
     return {
         cm: editor.myEditor,
         setDoc: editor.setDoc.bind(editor),
+        newDoc: editor.newDoc.bind(editor),
         setTheme: editor.setTheme.bind(editor),
         doc: editor.doc.bind(editor)
     };
