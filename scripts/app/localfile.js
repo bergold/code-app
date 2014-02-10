@@ -2,8 +2,12 @@ define(function() {
     
     var lfile = {
         
-        chooseDir: function() {
-            
+        chooseDir: function(cb) {
+            chrome.fileSystem.chooseEntry({
+                type: "openDirectory"
+            }, function(entry) {
+                chrome.fileSystem.getWritableEntry(entry, cb);
+            });
         },
         
         restoreEntry: function() {
@@ -14,8 +18,23 @@ define(function() {
             
         },
         
-        readDir: function() {
-            
+        readDir: function(etr, cb) {
+            var reader = etr.createReader();
+            var etrs = [];
+            var toArr = function (list) {
+                return Array.prototype.slice.call(list || [], 0);
+            };
+            var read = function() {
+                reader.readEntries(function(result){
+                    if (!result.length) {
+                        cb(etrs);
+                    } else {
+                        etrs = etrs.concat(toArr(result));
+                        read();
+                    }
+                });
+            };
+            read();
         },
         
         createDir: function() {
