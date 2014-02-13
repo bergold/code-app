@@ -8,6 +8,8 @@ require.config({
 
 require(['lib/jquery', 'tabs', 'settings', 'communication'], function($, tabs, settings, cmd) {
     
+    
+    // cmd-bindings
     cmd.on("app.close", function() {
         chrome.app.window.current().close();
     });
@@ -16,11 +18,21 @@ require(['lib/jquery', 'tabs', 'settings', 'communication'], function($, tabs, s
         chrome.app.window.current().isMaximized() ? chrome.app.window.current().restore() : chrome.app.window.current().maximize();
     });
     
+    
     // ui-bindings
-    $("[data-cmd]").each(function() {
-        $(this).on($(this).attr("data-evt"), (function(evt) {
-            cmd.trigger($(this).attr("data-cmd"), evt);
-        }).bind(this));
+    $("body").on("click", "[data-click]", function(evt) {
+        cmd.trigger($(this).attr("data-click"), evt);
+    });
+    
+    
+    // load app
+    settings.load(function() {
+        
+        if (settings("project") !== null) {
+            tabs.chooseProject(settings("project"));
+            $("body").removeClass("no-editor");
+        }
+        
     });
     
 });

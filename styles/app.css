@@ -81,6 +81,9 @@ html, body {
 
 /* Editor
 ======================== */
+.no-editor #editor .CodeMirror {
+    display: none;
+}
 #editor .CodeMirror {
     position: absolute !important;
     top: 0;

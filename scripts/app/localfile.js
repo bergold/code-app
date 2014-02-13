@@ -10,12 +10,16 @@ define(function() {
             });
         },
         
-        restoreEntry: function() {
-            
+        restoreEntry: function(id, cb) {
+            chrome.fileSystem.restoreEntry(id, cb);
         },
         
-        retainEntry: function() {
-            
+        retainEntry: function(etr) {
+            return chrome.fileSystem.retainEntry(etr);
+        },
+        
+        getPath: function(etr, cb) {
+            chrome.fileSystem.getDisplayPath(etr, cb);
         },
         
         readDir: function(etr, cb) {
@@ -37,36 +41,51 @@ define(function() {
             read();
         },
         
-        createDir: function() {
-            
+        createDir: function(name, dir, cb) {
+            dir.getDirectory(name, {create: true}, cb);
         },
         
-        removeDir: function() {
-            
+        removeDir: function(etr, cb) {
+            cb = cb || function() {};
+            etr.removeRecursively(cb);
         },
         
         renameDir: function() {
             
         },
         
-        readFile: function() {
-            
+        readFile: function(etr, cb) {
+            etr.file(function(f) {
+                var r = new FileReader();
+                r.onloadend = function(e) {
+                    cb(this.result);
+                };
+                r.readAsText(f);
+            });
         },
         
-        createFile: function() {
-            
+        createFile: function(name, dir, cb) {
+            dir.getFile(name, {create: true, exclusive: true}, cb);
         },
         
-        deleteFile: function() {
-            
+        deleteFile: function(etr, cb) {
+            cb = cb || function() {};
+            etr.remove(cb);
         },
         
         renameFile: function() {
             
         },
         
-        writeFile: function() {
-            
+        writeFile: function(etr, text, cb) {
+            cb = cb || function() {};
+            etr.createWriter(function(writer) {
+                writer.onwriteend = cb;
+                writer.onerror = cb;
+                
+                var blob = new Blob([text], {type: 'text/plain'});
+                writer.write(blob);
+            });
         }
         
     };
