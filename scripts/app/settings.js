@@ -1,16 +1,7 @@
 define(['storage'], function(storage) {
     
     var prefs = function(key, val) {
-        if (!this.ready) {
-            return false;
-        }
-        
-        if (val === undefined) {
-            return this.buffer[key];
-        } else {
-            buffer[key] = val;
-            storage.set({prefs: JSON.stringify(this.buffer)});
-        }
+        return getset(key, val);
     };
     
     prefs.DEF = {
@@ -28,8 +19,7 @@ define(['storage'], function(storage) {
         this.buffer = Object.create(this.DEF);
         
         storage.get("prefs", (function(item) {
-            console.log(item);
-            var p = item.length > 0 && item.prefs !== undefined ? item.prefs : {};
+            var p = item.prefs !== undefined ? item.prefs : "{}";
             var i, p = JSON.parse(p);
             for (i in p) {
                 if (this.DEF[i] !== undefined) {
@@ -41,6 +31,19 @@ define(['storage'], function(storage) {
         }).bind(this));
         
     };
+    
+    var getset = (function(key, val) {
+        if (!this.ready) {
+            return false;
+        }
+        
+        if (val === undefined) {
+            return this.buffer[key];
+        } else {
+            this.buffer[key] = val;
+            storage.set({prefs: JSON.stringify(this.buffer)});
+        }
+    }).bind(prefs);
     
     return prefs;
     

@@ -82,7 +82,7 @@ html, body {
 /* Editor
 ======================== */
 .no-editor #editor .CodeMirror {
-    display: none;
+    visibility: hidden;
 }
 #editor .CodeMirror {
     position: absolute !important;
