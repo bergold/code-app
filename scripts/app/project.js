@@ -2,21 +2,28 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
     
     var cP = function(name) {
         this._name = name;
-        this._dir = null;
+        this._dir = undefined;
         this._config = {};
         this._local = undefined;
-        this.ready = null;
+        this.ready = false;
     };
     
     cP.prototype.constructor = cP;
     
     cP.prototype.init = function() {
-        
+        storage.get("project."+this._name, (function(items) {
+            if (items['project'+this._name]) {
+                
+            } else {
+                
+            }
+        }).bind(this));
     };
     
     cP.prototype.save = function() {
         
     };
+    
     
     cP.prototype.isLocal = function() {
         return this._local;
@@ -65,6 +72,11 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
             
         },
         
+        /*
+         * opens a project
+         * @param {string} name Name des Projekts
+         * @return {cP} new or existing project
+         */
         open: function(name) {
             if (buffer[name]) {
                 return buffer[name];
