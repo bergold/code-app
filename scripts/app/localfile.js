@@ -3,10 +3,15 @@ define(function() {
     var lfile = {
         
         chooseDir: function(cb) {
+            cb = cb || function() {};
             chrome.fileSystem.chooseEntry({
                 type: "openDirectory"
             }, function(entry) {
-                chrome.fileSystem.getWritableEntry(entry, cb);
+                if (entry) {
+                    cb(entry);
+                } else {
+                    cb(false);
+                }
             });
         },
         
