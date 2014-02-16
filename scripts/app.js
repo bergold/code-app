@@ -27,8 +27,8 @@ require(['lib/jquery', 'tabs', 'settings', 'communication'], function($, tabs, s
                     entry.setAttribute("class", "file");
                     entry.innerHTML = ["<span class=\"icon\"></span>", "<span class=\"label\">", subdir.files[i].name, "</span>"].join('');
                 } else {
-                    entry.setAttribute("class", "dir");
-                    entry.innerHTML = ["<span class=\"icon\"></span>", "<span class=\"label\">", subdir.files[i].name, "</span>"].join('');
+                    entry.setAttribute("class", "dir closed");
+                    entry.innerHTML = ["<span class=\"icon icon-dir-closed\"></span>", "<span class=\"label\">", subdir.files[i].dir.name, "</span>"].join('');
                     entry.appendChild(addfiles(subdir.files[i]));
                 }
                 folder.appendChild(entry);
@@ -36,6 +36,7 @@ require(['lib/jquery', 'tabs', 'settings', 'communication'], function($, tabs, s
             return folder;
         };
         tree.appendChild(addfiles(ft));
+        $(".tree").append(tree);
     });
     
     

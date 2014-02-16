@@ -11,10 +11,19 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
             this.openproject = p;
             this.openfiles = [];
             this.filetree = undefined;
-            p.getFiletree((function(ft) {
-                this.filetree = ft;
-                cmd.trigger("app.filetreechanged", ft);
-            }).bind(this));
+            
+            var r = function(pr) {
+                pr.getFiletree((function(ft) {
+                    this.filetree = ft;
+                    cmd.trigger("app.filetreechanged", ft);
+                }).bind(this));
+            };
+            if (p.ready) {
+                r(p);
+            } else {
+                p.onready = r;
+            }
+            
         },
         
         getTabs: function() {

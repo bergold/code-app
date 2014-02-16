@@ -5,6 +5,7 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
         this._dir = undefined;
         this._config = {};
         this.ready = false;
+        this.onready = function() {};
     };
     
     cP.prototype.constructor = cP;
@@ -31,10 +32,12 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
                 this._config = JSON.parse(items['project'+this._name]);
                 if (this._config.remote) {
                     this.ready = true;
+                    this.onready(this);
                 } else {
                     lfile.restoreEntry(this._config.dirid, (function(etr) {
                         this._dir = etr;
                         this.ready = true;
+                        this.onready(this);
                     }).bind(this));
                 }
             } else {
@@ -48,6 +51,7 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
                             this._dir = etr;
                             this._config.dirid = lfile.retainEntry(etr);
                             this.ready = true;
+                            this.onready(this);
                             this.save();
                         }
                     }).bind(this));
