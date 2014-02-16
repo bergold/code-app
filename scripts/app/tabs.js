@@ -2,17 +2,26 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
     
     var tabs = {
         
-        openproject: null,
+        openproject: undefined,
         openfiles: [],
-        filetree: null,
+        filetree: undefined,
         
         chooseProject: function(name) {
             var p = project.open(name);
             this.openproject = p;
+            this.openfiles = [];
+            this.filetree = undefined;
+            p.getFiletree((function(ft) {
+                this.filetree = ft;
+                cmd.trigger("app.filetreechanged", ft);
+            }).bind(this));
         },
         
         getTabs: function() {
             return this.openfiles;
+        },
+        getTabsToSave: function() {
+            
         },
         selectTab: function(ti) {
             for (var i = 0; i < this.openfiles; i++) this.openfiles[i].active = false;
@@ -32,6 +41,9 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
             this.openfiles.push(tab);
             cmd.trigger("app.updatefiles");
             return tab;
+        },
+        saveTab: function() {
+            
         },
         closeTab: function() {
             
