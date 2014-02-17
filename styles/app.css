@@ -1,5 +1,5 @@
 /* Defs:
- * accent-color: 007AFF
+ * @accent-color: 007AFF
  */
 
 
@@ -7,6 +7,31 @@ html, body {
     margin: 0;
     width: 100%;
     height: 100%;
+}
+
+::-webkit-scrollbar              {
+    width: 14px;
+    height: 14px;
+    background: transparent;
+}
+::-webkit-scrollbar-button       {
+    display: none;
+    width: 0;
+    height: 0;
+}
+::-webkit-scrollbar-thumb        {
+    background: rgba(0, 0, 0, 0.5);
+    background-clip: padding-box;
+    border: 4px solid transparent;
+    width: 6px;
+    height: 6px;
+    border-radius: 14px;
+}
+::-webkit-scrollbar-corner       {
+    background: transparent;
+}
+::-webkit-resizer                {
+    background: transparent;
 }
 
 /* Layout
@@ -134,14 +159,19 @@ html, body {
     line-height: 34px;
     text-align: center;
     transition: all 0.2s ease;
+    color: rgba(0, 0, 0, 0.5);
 }
 .btn:hover {
     background: #F5F5F5;
+    color: #000;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Filetree
 ======================== */
+.tree {
+    padding: 20px;
+}
 .tree .entry {
     display: flex;
     flex-direction: row;
@@ -155,6 +185,8 @@ html, body {
     flex: initial;
     width: 28px;
     height: 28px;
+    line-height: 28px;
+    text-align: center;
 }
 .tree .entry .label {
     display: block;

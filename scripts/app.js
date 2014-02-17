@@ -25,7 +25,7 @@ require(['lib/jquery', 'tabs', 'settings', 'communication'], function($, tabs, s
             var elm = $("<div></div>");
             
             for (var i = 0; i < subdir.folder.length; i++) {
-                $("<div></div>").addClass("dir closed").append(createEntry(subdir.folder[i].dir.name, "dir")).append(addfiles(subdir.folder[i]).addClass("subdir")).appendTo(elm);
+                $("<div></div>").addClass("dir closed").append(createEntry(subdir.folder[i].dir.name, "arrow-right")).append(addfiles(subdir.folder[i]).addClass("subdir")).appendTo(elm);
             }
             
             for (var i = 0; i < subdir.files.length; i++) {
@@ -34,7 +34,7 @@ require(['lib/jquery', 'tabs', 'settings', 'communication'], function($, tabs, s
             
             return elm;
         };
-        $(".tree").append(addfiles(ft));
+        $(".tree").empty().append(addfiles(ft));
     });
     
     
@@ -44,7 +44,7 @@ require(['lib/jquery', 'tabs', 'settings', 'communication'], function($, tabs, s
     });
     
     $(".tree").on("click", ".dir", function(evt) {
-        $(this).toggleClass("closed");
+        $(this).toggleClass("closed").find(".entry:eq(0) .icon").toggleClass("icon-arrow-right icon-arrow-down");
         evt.stopPropagation();
     });
     $(".tree").on("click", ".file", function(evt) {  
