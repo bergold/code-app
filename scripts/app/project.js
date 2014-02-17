@@ -27,9 +27,9 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
     
     
     cP.prototype.init = function(remote) {
-        storage.get("project."+this._name, (function(items) {
-            if (items['project'+this._name]) {
-                this._config = JSON.parse(items['project'+this._name]);
+        storage.get("project-"+this._name, (function(items) {
+            if (items['project-'+this._name]) {
+                this._config = JSON.parse(items['project-'+this._name]);
                 if (this._config.remote) {
                     this.ready = true;
                     this.onready(this);
@@ -46,10 +46,12 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
                     
                 } else {
                     this._config = Object.create(cP.DEF_L_CONFIG);
+                    console.log(this._config);
                     lfile.chooseDir((function(etr) {
                         if (etr) {
                             this._dir = etr;
                             this._config.dirid = lfile.retainEntry(etr);
+                            console.log(this._config);
                             this.ready = true;
                             this.onready(this);
                             this.save();
@@ -61,7 +63,9 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
     };
     
     cP.prototype.save = function() {
-        
+        var p = {};
+        p['project-'+this._name] = JSON.stringify(this._config);
+        storage.set(p);
     };
     
     
