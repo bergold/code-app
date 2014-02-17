@@ -10,22 +10,6 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
     
     cP.prototype.constructor = cP;
     
-    cP.DEF_L_CONFIG = {
-        remote: false,
-        dirid: null
-    };
-    cP.DEF_R_CONFIG = {
-        remote: true,
-        ftp: {
-            server: '',
-            port: '',
-            un: '',
-            pw: '',
-            path: ''
-        }
-    };
-    
-    
     cP.prototype.init = function(remote) {
         storage.get("project-"+this._name, (function(items) {
             if (items['project-'+this._name]) {
@@ -42,10 +26,22 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
                 }
             } else {
                 if (remote) {
-                    this._config = Object.create(cP.DEF_R_CONFIG);
+                    this._config = {
+                        "remote": true,
+                        "ftp": {
+                            "server": '',
+                            "port": '',
+                            "un": '',
+                            "pw": '',
+                            "path": ''
+                        }
+                    };
                     
                 } else {
-                    this._config = Object.create(cP.DEF_L_CONFIG);
+                    this._config = {
+                        "remote": false,
+                        "dirid": undefined
+                    };
                     console.log(this._config);
                     lfile.chooseDir((function(etr) {
                         if (etr) {
@@ -75,6 +71,9 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
     cP.prototype.isRemote = function() {
         return this._config && this._config.remote;
     };
+    cP.prototype.getConfig = function() {
+        return this._config;
+    };
     
     cP.prototype.getLabel = function() {
         
@@ -86,14 +85,14 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
         if (this._config.remote) {
             
         } else {
-            var basedir = {dir:this._dir, files:[]};
+            var basedir = {dir:this._dir, folder:[], files:[]};
             var counter = 1;
             var readdir = function(subdir) {
                 lfile.readDir(subdir.dir, function(dircontent) {
                     for (var i = 0; i < dircontent.length; i++) {
                         if (dircontent[i].isDirectory) {
-                            var newdir = {dir:dircontent[i], files:[]};
-                            subdir.files.push(newdir);
+                            var newdir = {dir:dircontent[i], folder:[], files:[]};
+                            subdir.folder.push(newdir);
                             counter++;
                             readdir.call(this, newdir);
                         } else {
@@ -137,8 +136,19 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
         
         buffer: {},
         
-        getList: function() { // ???
-            
+        getList: function(cb) {
+            storage.get("projects", function(i) {
+                cb(i['projects'] ? i['projects'].split(',') : []);
+            });
+        },
+        
+        add: function(name) {
+            this.getList(function(a) {
+                if (a.indexOf(name) < 0) {
+                    a.push(name);
+                    storage.set({"projects":a.join(',')});
+                }
+            });
         },
         
         /*
@@ -153,6 +163,7 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
                 var p = new cP(name);
                 p.init(remote);
                 this.buffer[name] = p;
+                this.add(name);
                 return p;
             }
         },

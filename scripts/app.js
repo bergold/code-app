@@ -18,31 +18,37 @@ require(['lib/jquery', 'tabs', 'settings', 'communication'], function($, tabs, s
     });
     
     cmd.on("app.filetreechanged", function(ft) {
-        var tree = document.createDocumentFragment();
-        var addfiles = function(subdir) {
-            var folder = document.createElement("div");
-            for (var i = 0; i < subdir.files.length; i++) {
-                var entry = document.createElement("div");
-                if (subdir.files[i].isFile) {
-                    entry.setAttribute("class", "file");
-                    entry.innerHTML = ["<span class=\"icon\"></span>", "<span class=\"label\">", subdir.files[i].name, "</span>"].join('');
-                } else {
-                    entry.setAttribute("class", "dir closed");
-                    entry.innerHTML = ["<span class=\"icon icon-dir-closed\"></span>", "<span class=\"label\">", subdir.files[i].dir.name, "</span>"].join('');
-                    entry.appendChild(addfiles(subdir.files[i]));
-                }
-                folder.appendChild(entry);
-            }
-            return folder;
+        var createEntry = function(name, icon) {
+            return $("<div></div>").addClass("entry").append("<span class=\"icon icon-"+icon+"\"></span>").append("<span class=\"label\">"+name+"</span>");
         };
-        tree.appendChild(addfiles(ft));
-        $(".tree").append(tree);
+        var addfiles = function(subdir) {
+            var elm = $("<div></div>");
+            
+            for (var i = 0; i < subdir.folder.length; i++) {
+                $("<div></div>").addClass("dir closed").append(createEntry(subdir.folder[i].dir.name, "dir")).append(addfiles(subdir.folder[i]).addClass("subdir")).appendTo(elm);
+            }
+            
+            for (var i = 0; i < subdir.files.length; i++) {
+                createEntry(subdir.files[i].name, "file").addClass("file").appendTo(elm);
+            }
+            
+            return elm;
+        };
+        $(".tree").append(addfiles(ft));
     });
     
     
     // ui-bindings
     $("body").on("click", "[data-click]", function(evt) {
         cmd.trigger($(this).attr("data-click"), evt);
+    });
+    
+    $(".tree").on("click", ".dir", function(evt) {
+        $(this).toggleClass("closed");
+        evt.stopPropagation();
+    });
+    $(".tree").on("click", ".file", function(evt) {  
+        evt.stopPropagation();
     });
     
     

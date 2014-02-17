@@ -19,6 +19,8 @@ html, body {
 }
 
 .sidebar {
+    display: flex;
+    flex-direction: column;
     flex: initial;
     width: 250px;
     height: 100%;
@@ -61,12 +63,22 @@ html, body {
     height: 25px;
 }
 
+.files {
+    max-height: 200px;
+}
+
+.tree {
+    flex: 1;
+    overflow: auto;
+}
+
 /* Colors
 ======================== */
 .sidebar {
     background: #222222;
+    color: #C4C4C4;
 }
-.sidebar .menubar {
+.sidebar .files {
     background: #1B1B1B;
 }
 .main {
@@ -94,7 +106,7 @@ html, body {
 
 /* Menubar entries
 ======================== */
-.entry {
+.menubar .entry {
     display: inline-block;
     height: 50px;
     padding: 0 1.2em;
@@ -104,7 +116,7 @@ html, body {
     cursor: default;
     transition: all 0.2s ease;
 }
-.entry:hover {
+.menubar .entry:hover {
     color: #007AFF;
 }
 
@@ -127,3 +139,35 @@ html, body {
     background: #F5F5F5;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+/* Filetree
+======================== */
+.tree .entry {
+    display: flex;
+    flex-direction: row;
+    height: 28px;
+}
+.tree .entry:hover {
+    color: #fff;
+}
+.tree .entry .icon {
+    display: block;
+    flex: initial;
+    width: 28px;
+    height: 28px;
+}
+.tree .entry .label {
+    display: block;
+    flex: 1;
+    height: 28px;
+    line-height: 28px;
+    white-space: nowrap;
+}
+.tree .dir .subdir {
+    margin-left: 20px;
+}
+.tree .dir.closed .subdir {
+    height: 0;
+    overflow: hidden;
+}
+

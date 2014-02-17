@@ -5,8 +5,7 @@ define(['storage'], function(storage) {
     };
     
     prefs.DEF = {
-        project: null,
-        projects: []
+        project: null
     };
     
     prefs.buffer = {};
