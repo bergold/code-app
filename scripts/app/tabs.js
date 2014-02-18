@@ -6,6 +6,12 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
         openfiles: [],
         filetree: undefined,
         
+        loadProjects: function() {
+            project.list(function(pl) {
+                cmd.trigger("app.projectlistchanged", pl);
+            });
+        },
+        
         chooseProject: function(name) {
             var p = project.open(name);
             this.openproject = p;
@@ -69,6 +75,7 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
     });
     
     return {
+        loadProjects: tabs.loadProjects.bind(tabs),
         chooseProject: tabs.chooseProject.bind(tabs),
         getTabs: tabs.getTabs.bind(tabs),
         getFiletree: tabs.getFiletree.bind(tabs)

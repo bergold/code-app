@@ -17,6 +17,15 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
         chrome.app.window.current().isMaximized() ? chrome.app.window.current().restore() : chrome.app.window.current().maximize();
     });
     
+    cmd.on("app.projectlistchanged", function(pl) {
+        var a = JSON.parse($(".sidebar .menubar .entry").attr("data-menu"));
+        a = a.splice(-2);
+        for (var i=0; i<pl.length; i++) {
+            a.unshift({ "label": pl[i], "cmd": "tabs.chooseproject" });
+        }
+        $(".sidebar .menubar .entry").attr("data-menu", JSON.stringify(a));
+    });
+    
     cmd.on("app.filetreechanged", function(ft) {
         var addfiles = function(subdir) {
             var elm = $("<div></div>");
@@ -59,6 +68,8 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
             tabs.chooseProject(settings("project"));
             $("body").removeClass("no-editor");
         }
+        
+        tabs.loadProjects();
         
     });
     
