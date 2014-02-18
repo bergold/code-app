@@ -28,14 +28,47 @@
             <div class="main">
                 <div class="menubar">
                     <div class="entries">
-                        <div class="entry">
-                            File
+                        <div class="entry" data-menu="[
+                                                      { &quot;label&quot;: &quot;Neue Datei&quot;, &quot;cmd&quot;: &quot;tabs.new&quot; },
+                                                      { &quot;label&quot;: &quot;Speichern&quot;, &quot;cmd&quot;: &quot;tabs.save&quot; },
+                                                      { &quot;label&quot;: &quot;Alle Speichern&quot;, &quot;cmd&quot;: &quot;tabs.saveall&quot; },
+                                                      { &quot;label&quot;: &quot;Neues Projekt&quot;, &quot;cmd&quot;: &quot;tabs.newproject&quot; },
+                                                      { &quot;label&quot;: &quot;Projekt &ouml;ffnen&quot;, &quot;cmd&quot;: &quot;tabs.newproject&quot; },
+                                                      { &quot;label&quot;: &quot;Schlie&szlig;en&quot;, &quot;cmd&quot;: &quot;tabs.close&quot; },
+                                                      { &quot;label&quot;: &quot;Alle schlie&szlig;en&quot;, &quot;cmd&quot;: &quot;tabs.closeall&quot; },
+                                                      { &quot;label&quot;: &quot;Beenden&quot;, &quot;cmd&quot;: &quot;app.close&quot; }
+                                                      ]">
+                            Datei
                         </div>
-                        <div class="entry">
-                            Edit
+                        <div class="entry" data-menu="[
+                                                      { &quot;label&quot;: &quot;R&uuml;ckg&auml;ngig&quot;, &quot;cmd&quot;: &quot;editor.undo&quot; },
+                                                      { &quot;label&quot;: &quot;Wiederholen&quot;, &quot;cmd&quot;: &quot;editor.redo&quot; },
+                                                      { &quot;label&quot;: &quot;Ausschneiden&quot;, &quot;cmd&quot;: &quot;editor.cut&quot; },
+                                                      { &quot;label&quot;: &quot;Kopieren&quot;, &quot;cmd&quot;: &quot;editor.copy&quot; },
+                                                      { &quot;label&quot;: &quot;Einf&uuml;gen&quot;, &quot;cmd&quot;: &quot;editor.paste&quot; },
+                                                      { &quot;label&quot;: &quot;Alles ausw&auml;hlen&quot;, &quot;cmd&quot;: &quot;editor.selectall&quot; },
+                                                      { &quot;label&quot;: &quot;Zeile ausw&auml;hlen&quot;, &quot;cmd&quot;: &quot;editor.selectline&quot; },
+                                                      { &quot;label&quot;: &quot;Suchen&quot;, &quot;cmd&quot;: &quot;editor.search&quot; },
+                                                      { &quot;label&quot;: &quot;Im Projekt suchen&quot;, &quot;cmd&quot;: &quot;editor.searchproject&quot; },
+                                                      { &quot;label&quot;: &quot;Ersetzen&quot;, &quot;cmd&quot;: &quot;editor.replace&quot; },
+                                                      { &quot;label&quot;: &quot;Einr&uuml;cken&quot;, &quot;cmd&quot;: &quot;editor.indentincrease&quot; },
+                                                      { &quot;label&quot;: &quot;Ausr&uuml;cken&quot;, &quot;cmd&quot;: &quot;editor.indentdecrease&quot; },
+                                                      { &quot;label&quot;: &quot;Dublizieren&quot;, &quot;cmd&quot;: &quot;editor.dublicate&quot; },
+                                                      { &quot;label&quot;: &quot;Zeile l&ouml;schen&quot;, &quot;cmd&quot;: &quot;editor.removeline&quot; },
+                                                      { &quot;label&quot;: &quot;Zeile nach oben verschieben&quot;, &quot;cmd&quot;: &quot;editor.movelineup&quot; },
+                                                      { &quot;label&quot;: &quot;Zeile nach unten verschieben&quot;, &quot;cmd&quot;: &quot;editor.movelinedown&quot; },
+                                                      { &quot;label&quot;: &quot;Zeile (aus)kommentieren&quot;, &quot;cmd&quot;: &quot;editor.commentline&quot; },
+                                                      { &quot;label&quot;: &quot;Block (aus)kommentieren&quot;, &quot;cmd&quot;: &quot;editor.commentblock&quot; },
+                                                      { &quot;label&quot;: &quot;Leerzeichen in Tabs umwandeln&quot;, &quot;cmd&quot;: &quot;editor.spacestotabs&quot; },
+                                                      { &quot;label&quot;: &quot;Tabs in Leerzeichen umwandeln&quot;, &quot;cmd&quot;: &quot;editor.tabstospaces&quot; }
+                                                      ]">
+                            Bearbeiten
                         </div>
-                        <div class="entry">
-                            Settings
+                        <div class="entry" data-menu="[
+                                                      { &quot;label&quot;: &quot;Einstellungen&quot;, &quot;cmd&quot;: &quot;window.settings&quot; },
+                                                      { &quot;label&quot;: &quot;&Uuml;ber&quot;, &quot;cmd&quot;: &quot;window.about&quot; }
+                                                      ]">
+                            Extras
                         </div>
                     </div>
                     <div class="buttons">
@@ -54,8 +87,9 @@
         </div>
         
         <div class="overlays">
-            <div class="contextmenus">
-                
+            <div class="clicklayer">
+            </div>
+            <div class="menu">
             </div>
             <div class="windows">
                 

@@ -152,6 +152,13 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
         },
         
         /*
+         *
+         */
+        create: function(remote, config) {
+            
+        },
+        
+        /*
          * opens a project and initializes it
          * @param {string} name Name des Projekts
          * @return {cP} new or existing project
