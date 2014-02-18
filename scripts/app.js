@@ -6,7 +6,7 @@ require.config({
     }
 });
 
-require(['lib/jquery', 'tabs', 'settings', 'communication'], function($, tabs, settings, cmd) {
+require(['lib/jquery', 'tabs', 'settings', 'communication', 'util'], function($, tabs, settings, cmd, util) {
     
     
     // cmd-bindings
@@ -29,7 +29,7 @@ require(['lib/jquery', 'tabs', 'settings', 'communication'], function($, tabs, s
             }
             
             for (var i = 0; i < subdir.files.length; i++) {
-                createEntry(subdir.files[i].name, "file").addClass("file").appendTo(elm);
+                createEntry(subdir.files[i].name, util.getFileIcon(subdir.files[i].name)).addClass("file").appendTo(elm);
             }
             
             return elm;
