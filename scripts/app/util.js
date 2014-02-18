@@ -1,21 +1,20 @@
 define({
     
     EXTENSION_ICONS: {
-        "file-css": [".css", ".js", ".php", ".json"],
-        "file-xml": [".html", ".htm", ".htmls", ".xhtml", ".xml", ".xaml"],
-        "file-zip": [".zip", ".rar"],
-        "image": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".psd", ".xcf"]
+        "file-css": ["css", "js", "php", "json"],
+        "file-xml": ["html", "htm", "htmls", "xhtml", "xml", "xaml"],
+        "file-zip": ["zip", "rar"],
+        "image": ["jpg", "jpeg", "png", "gif", "bmp", "psd", "xcf"]
     },
     
     getFileName: function(a) {
-        a = a.split('.');
-        a.pop();
-        return a.join('.');
+        var i = a.lastIndexOf('.');
+        return i < 0 ? a : a.substr(0, i);
     },
     
-    getFileExtension: function(a) {
-        var b = a.match(/\.[^\.]+$/);
-        return b===null ? "." : b[0];
+    getFileExtension: function(a, withdot) {
+        var i = a.lastIndexOf('.');
+        return i < 0 ? "" : a.substr(i + (withdot ? 0 : 1));
     },
     
     getFileIcon: function(a) {
