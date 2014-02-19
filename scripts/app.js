@@ -18,11 +18,11 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
     });
     
     cmd.on("app.projectlistchanged", function(pl) {
-        var a = JSON.parse($(".sidebar .menubar .entry").attr("data-menu"));
+        var a = JSON.parse($(".sidebar .menubar .entry").removeClass("disabled").attr("data-menu"));
         a = a.splice(-2);
         if (Object.keys(pl).length > 0) a.unshift("|");
         for (var i in pl) {
-            a.unshift({ "label": pl[i].label + " (" + i + ")", "cmd": "tabs.chooseproject" });
+            a.unshift({ "label": pl[i].label + " (" + i + ")", "cmd": "tabs.chooseproject", "data": i });
         }
         $(".sidebar .menubar .entry").attr("data-menu", JSON.stringify(a));
     });
@@ -47,10 +47,13 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
     
     // ui-bindings
     $("body").on("click", "[data-click]", function(evt) {
-        cmd.trigger($(this).attr("data-click"), evt);
+        var e = { trigger: this, event: evt };
+        var d = $(this).attr("cmd-data");
+        if (d) e.data = d;
+        cmd.trigger($(this).attr("data-click"), e);
     });
     $("body").on("click", "[data-menu]", function(evt) {
-        ui.createMenu(this);
+        $(this).hasClass("disabled") || ui.createMenu(this);
     });
     
     $(".tree").on("click", ".dir", function(evt) {

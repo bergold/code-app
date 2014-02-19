@@ -81,8 +81,8 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
         
     };
     
-    cmd.on("tabs.new", function(data) {
-        
+    cmd.on("tabs.chooseproject", function(e) {
+        tabs.chooseProject(e.data);
     });
     
     return {

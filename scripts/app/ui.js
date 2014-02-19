@@ -5,8 +5,12 @@ define(['lib/jquery', 'communication', 'util'], function($, cmd, util) {
         initClickLayer: function(white, onclick) {
             $(".overlays .clicklayer").off().on("click", function(e) {
                 $(this).removeClass("active white");
-                onclick.call(this, e);
+                onclick(e);
             }).toggleClass("white", white).addClass("active");
+        },
+        
+        clearClickLayer: function() {
+            $(".overlays .clicklayer").removeClass("active white");
         },
         
         /* Creates a Menu
@@ -19,19 +23,25 @@ define(['lib/jquery', 'communication', 'util'], function($, cmd, util) {
             offset.left += 15;
             offset["max-height"] = ($(document).height() - offset.top - 80) + "px";
             
+            var menu = $(".overlays .menu").empty();
+            
+            var cleanup = function() {
+                menu.removeClass("active");
+                this.clearClickLayer();
+            };
+            
             var menufrag = document.createDocumentFragment();
             for (var i=0; i<data.length; i++) {
                 if (data[i] === "|") {
                     $("<div></div>").addClass("menuentry separator").appendTo(menufrag);
                 } else {
-                    $("<div></div>").text(data[i].label).addClass("menuentry").attr("data-click", data[i].cmd).appendTo(menufrag);
+                    var a = $("<div></div>").text(data[i].label).addClass("menuentry").attr("data-click", data[i].cmd).on("click", cleanup.bind(this)).appendTo(menufrag);
+                    if (data[i].data) a.attr("cmd-data", data[i].data);
                 }
             }
-            var menu = $(".overlays .menu").empty().append(menufrag).css(offset).addClass("active");
+            menu.append(menufrag).css(offset).addClass("active");
             
-            this.initClickLayer(false, function(e) {
-                menu.removeClass("active").empty();
-            });
+            this.initClickLayer(false, cleanup.bind(this));
         }, 
         
         /* Creates an entry for a file or directory in the sidebar
@@ -44,6 +54,9 @@ define(['lib/jquery', 'communication', 'util'], function($, cmd, util) {
         
     };
     
+    cmd.on("window.newproject", function(e) {
+        
+    });
     cmd.on("window.projects", function(e) {
         
     });
