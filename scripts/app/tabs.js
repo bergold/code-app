@@ -12,12 +12,11 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
             });
         },
         
-        chooseProject: function(name) {
-            var p = project.open(name);
+        initProject: function(p) {
             this.openproject = p;
             this.openfiles = [];
             this.filetree = undefined;
-            
+
             var r = function(pr) {
                 pr.getFiletree((function(ft) {
                     this.filetree = ft;
@@ -29,7 +28,19 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
             } else {
                 p.onready = r;
             }
-            
+        },
+        
+        chooseProject: function(name) {
+            var p = project.open(name, this.initProject.bind(this));
+        },
+        
+        newProject: function(label, ftp) {
+            var config = {
+                label: label,
+                remote: ftp!==undefined,
+            };
+            if (ftp!==undefined) config.ftp = ftp;
+            project.create(config, this.initProject.bind(this));
         },
         
         getTabs: function() {
@@ -77,6 +88,7 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
     return {
         loadProjects: tabs.loadProjects.bind(tabs),
         chooseProject: tabs.chooseProject.bind(tabs),
+        newProject: tabs.newProject.bind(tabs),
         getTabs: tabs.getTabs.bind(tabs),
         getFiletree: tabs.getFiletree.bind(tabs)
     };

@@ -162,8 +162,10 @@ define(['storage', 'localfile', 'remotefile', 'communication', 'util'], function
          */
         create: function(config, cb) {
             if (config.remote) {
+                config = util.mergeObj(this.DEFAULT_CONFIG_REMOTE, config);
                 
             } else {
+                config = util.mergeObj(this.DEFAULT_CONFIG_LOCAL, config);
                 lfile.chooseDir(function(etr) {
                     if (etr) {
                         var name = util.getLocalProjectname(etr.name);

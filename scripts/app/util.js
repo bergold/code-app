@@ -30,4 +30,13 @@ define({
         return a.replace(/[^a-z\-0-9]/gi, '');
     },
     
+    mergeObj: function(base, top) {
+        for (var i in base) {
+            if (top[i]) {
+                base[i] = top[i];
+            }
+        }
+        return base;
+    }
+    
 });
