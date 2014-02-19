@@ -1,20 +1,25 @@
-define(['storage', 'localfile', 'remotefile', 'communication'], function(storage, lfile, rfile, cmd) {
+define(['storage', 'localfile', 'remotefile', 'communication', 'util'], function(storage, lfile, rfile, cmd, util) {
     
-    var cP = function(name) {
+    var cP = function(name, config) {
         this._name = name;
         this._dir = undefined;
-        this._config = {};
+        this._config = config;
         this.ready = false;
         this.onready = function() {};
     };
     
     cP.prototype.constructor = cP;
     
-    cP.prototype.init = function(remote) {
-        storage.get("project-"+this._name, (function(items) {
-            if (items['project-'+this._name]) {
-                this._config = JSON.parse(items['project-'+this._name]);
-                if (this._config.remote) {
+    cP.prototype.init = function(dir) {
+        if (this._config.remote) {
+            this.ready = true;
+            this.onready(this);
+            
+        } else {
+            if (!this._dir && (dir || this._config.dirid)) {
+                if (dir) {
+                    this._config.dirid = lfile.retainEntry(dir);
+                    this.save();
                     this.ready = true;
                     this.onready(this);
                 } else {
@@ -24,44 +29,13 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
                         this.onready(this);
                     }).bind(this));
                 }
-            } else {
-                if (remote) {
-                    this._config = {
-                        "remote": true,
-                        "ftp": {
-                            "server": '',
-                            "port": '',
-                            "un": '',
-                            "pw": '',
-                            "path": ''
-                        }
-                    };
-                    
-                } else {
-                    this._config = {
-                        "remote": false,
-                        "dirid": undefined
-                    };
-                    console.log(this._config);
-                    lfile.chooseDir((function(etr) {
-                        if (etr) {
-                            this._dir = etr;
-                            this._config.dirid = lfile.retainEntry(etr);
-                            console.log(this._config);
-                            this.ready = true;
-                            this.onready(this);
-                            this.save();
-                        }
-                    }).bind(this));
-                }
             }
-        }).bind(this));
+        }
+        return this;
     };
     
     cP.prototype.save = function() {
-        var p = {};
-        p['project-'+this._name] = JSON.stringify(this._config);
-        storage.set(p);
+        projects.set(this._name, this._config);
     };
     
     
@@ -134,28 +108,71 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
     
     var projects = {
         
-        buffer: {},
+        DEFAULT_CONFIG_LOCAL: {
+            "label": "",
+            "remote": false,
+            "dirid": undefined
+        },
+        DEFAULT_CONFIG_REMOTE: {
+            "label": "",
+            "remote": true,
+            "ftp": {
+                "server": "",
+                "port": "",
+                "un": "",
+                "pw": "",
+                "path": ""
+            }
+        },
         
+        buffer: undefined,
+        
+        /* 
+         * Gets a list of all projects
+         * @param {function} cb The callback | function({object} projects)
+         */
         getList: function(cb) {
-            storage.get("projects", function(i) {
-                cb(i['projects'] ? i['projects'].split(',') : []);
-            });
+            if (this.buffer!==undefined) {
+                cb(this.buffer);
+                return;
+            }
+            storage.get("projects", (function(i) {
+                this.buffer = i['projects'] ? JSON.parse(i['projects']) : {};
+                cb(this.buffer);
+            }).bind(this));
         },
         
-        add: function(name) {
-            this.getList(function(a) {
-                if (a.indexOf(name) < 0) {
-                    a.push(name);
-                    storage.set({"projects":a.join(',')});
-                }
-            });
+        set: function(name, config) {
+            this.getList((function(a) {
+                a[name] = config;
+                this.save();
+            }).bind(this));
         },
+        
+        save: function() {
+            this.buffer !== undefined && storage.set({ projects: JSON.stringify(this.buffer) });
+        },
+        
+        
         
         /*
-         *
+         * creates a new project
+         * @param {string} label The string which is displayed in the app
+         * @param {object} config
          */
-        create: function(remote, config) {
-            
+        create: function(config, cb) {
+            if (config.remote) {
+                
+            } else {
+                lfile.chooseDir(function(etr) {
+                    if (etr) {
+                        var name = util.getLocalProjectname(etr.name);
+                        cb((new cP(name, config)).init(etr))
+                    } else {
+                        cb(false);
+                    }
+                })
+            }
         },
         
         /*
@@ -163,26 +180,30 @@ define(['storage', 'localfile', 'remotefile', 'communication'], function(storage
          * @param {string} name Name des Projekts
          * @return {cP} new or existing project
          */
-        open: function(name, remote) {
-            if (this.buffer[name]) {
-                return this.buffer[name];
-            } else {
-                var p = new cP(name);
-                p.init(remote);
-                this.buffer[name] = p;
-                this.add(name);
-                return p;
-            }
+        open: function(name, cb) {
+            this.getList(function(b) {
+                if (b[name]) {
+                    cb((new cP(name, b[name])).init());
+                } else {
+                    cb(false);
+                }
+            });
         },
         
+        /*
+         * removes a project
+         * @param {string} name The name of the project to remove
+         */
         remove: function(name) {
-            
+            this.buffer[name] = undefined;
+            this.save();
         }
         
     };
     
     return {
         list: projects.getList.bind(projects),
+        create: projects.create.bind(projects),
         open: projects.open.bind(projects),
         remove: projects.remove.bind(projects)
     };

@@ -24,6 +24,10 @@ define({
             }
         }
         return "file";
-    }
+    }, 
+    
+    getLocalProjectname: function(a) {
+        return a.replace(/[^a-z\-0-9]/gi, '');
+    },
     
 });

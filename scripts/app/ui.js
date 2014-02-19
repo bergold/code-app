@@ -44,6 +44,9 @@ define(['lib/jquery', 'communication', 'util'], function($, cmd, util) {
         
     };
     
+    cmd.on("window.projects", function(e) {
+        
+    });
     cmd.on("window.settings", function(e) {
         
     });

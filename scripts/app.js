@@ -20,6 +20,7 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
     cmd.on("app.projectlistchanged", function(pl) {
         var a = JSON.parse($(".sidebar .menubar .entry").attr("data-menu"));
         a = a.splice(-2);
+        if (pl.length > 0) a.unshift("|");
         for (var i=0; i<pl.length; i++) {
             a.unshift({ "label": pl[i], "cmd": "tabs.chooseproject" });
         }
