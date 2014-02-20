@@ -52,19 +52,27 @@ define(['lib/jquery', 'communication', 'util'], function($, cmd, util) {
             return $("<div></div>").addClass("entry").append("<span class=\"icon icon-"+icon+"\"></span>").append("<span class=\"label\">"+name+"</span>");
         },
         
+        
+        showWindow: function(name) {
+            $(".window."+name).addClass("active");
+            this.initClickLayer(true, function() {
+                $(".window."+name).removeClass("active");
+            });
+        }
+        
     };
     
     cmd.on("window.newproject", function(e) {
-        
+        ui.showWindow("newproject");
     });
     cmd.on("window.projects", function(e) {
-        
+        ui.showWindow("projects");
     });
     cmd.on("window.settings", function(e) {
-        
+        ui.showWindow("settings");
     });
     cmd.on("window.about", function(e) {
-        
+        ui.showWindow("about");
     });
     
     return ui;

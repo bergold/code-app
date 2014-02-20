@@ -44,8 +44,8 @@
                                                       { &quot;label&quot;: &quot;Schlie&szlig;en&quot;, &quot;cmd&quot;: &quot;tabs.close&quot; },
                                                       { &quot;label&quot;: &quot;Alle schlie&szlig;en&quot;, &quot;cmd&quot;: &quot;tabs.closeall&quot; },
                                                       &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Neues Projekt&quot;, &quot;cmd&quot;: &quot;tabs.newproject&quot; },
-                                                      { &quot;label&quot;: &quot;Projekt &ouml;ffnen&quot;, &quot;cmd&quot;: &quot;tabs.newproject&quot; },
+                                                      { &quot;label&quot;: &quot;Neues Projekt&quot;, &quot;cmd&quot;: &quot;window.newproject&quot; },
+                                                      { &quot;label&quot;: &quot;Projekt &ouml;ffnen&quot;, &quot;cmd&quot;: &quot;window.projects&quot; },
                                                       &quot;|&quot;,
                                                       { &quot;label&quot;: &quot;Beenden&quot;, &quot;cmd&quot;: &quot;app.close&quot; }
                                                       ]">
@@ -109,6 +109,40 @@
             <div class="menu">
             </div>
             <div class="windows">
+                <div class="window newproject">
+                    <div class="header">
+                        <h1>Neues Projekt</h1>
+                    </div>
+                    
+                    <div class="tabs" data-tabs="{ &quot;local&quot;: &quot;Lokal&quot;, &quot;remote&quot;: &quot;FTP&quot; }">
+                        <div class="tab local"></div>
+                        <div class="tab remote"></div>
+                    </div>
+                    
+                    <div class="footer"></div>
+                </div>
+                <div class="window projects">
+                    <div class="header">
+                        <h1>Meine Projekte</h1>
+                    </div>
+                    
+                    <div class="tabs" data-tabs="{ &quot;local&quot;: &quot;Lokal&quot;, &quot;remote&quot;: &quot;FTP&quot; }">
+                        <div class="tab local"></div>
+                        <div class="tab remote"></div>
+                    </div>
+                </div>
+                <div class="window settings">
+                    <div class="header">
+                        <h1>Einstellungen</h1>
+                    </div>
+                    
+                </div>
+                <div class="window about">
+                    <div class="header">
+                        <h1>&Uuml;ber</h1>
+                    </div>
+                    
+                </div>
                 
             </div>
         </div>
