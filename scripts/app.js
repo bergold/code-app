@@ -55,6 +55,12 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
     $("body").on("click", "[data-menu]", function(evt) {
         $(this).hasClass("disabled") || ui.createMenu(this);
     });
+    $("body").on("click", ".tabs [data-tab]", function(evt) {
+        var c = $(this).attr("data-tab");
+        $(this).parent().find(".entry").removeClass("active");
+        $(this).addClass("active");
+        $(this).parents(".tabs").find(".tab").removeClass("active").parent().find("."+c).addClass("active");
+    });
     
     $(".tree").on("click", ".dir", function(evt) {
         $(this).toggleClass("closed").find(".entry:eq(0) .icon").toggleClass("icon-arrow-right icon-arrow-down");

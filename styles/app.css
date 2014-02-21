@@ -157,8 +157,8 @@ html, body {
     display: inline-block;
     box-sizing: border-box;
     margin: 8px 0;
-    width: 34px;
     height: 34px;
+    padding: 0 10px;
     border-width: 1px;
     border-style: solid;
     border-color: transparent;
@@ -171,6 +171,10 @@ html, body {
     background: #F5F5F5;
     color: #000;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.menubar .btn {
+    width: 34px;
+    padding: 0;
 }
 
 /* Filetree
@@ -213,7 +217,6 @@ html, body {
 
 /* Overlays
 ======================== */
-.overlays { }
 .overlays .clicklayer {
     display: none;
     position: absolute;
@@ -261,10 +264,84 @@ html, body {
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%,-50%);
-    padding: 20px;
+    min-width: 280px;
     background: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 .overlays .window.active {
     display: block;
+}
+.overlays .window .header {
+    margin: 10px;
+    padding: 5px 0;
+}
+.overlays .window .header h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: normal;
+    color: #007AFF;
+}
+.overlays .window .footer {
+    background: #eee;
+    padding: 0 20px;
+    text-align: right;
+}
+.overlays .window .tabs .tab-nav {
+    margin: 0 10px 10px;
+    padding: 0 10px;
+    border-bottom: 1px solid #007AFF;
+    height: 42px;
+    box-sizing: border-box;
+}
+.overlays .window .tabs .tab-nav .entry {
+    display: inline-block;
+    height: 42px;
+    padding: 0 10px;
+    line-height: 42px;
+    box-sizing: border-box;
+}
+.overlays .window .tabs .tab-nav .entry:hover {
+    color: #007AFF;
+}
+.overlays .window .tabs .tab-nav .entry.active {
+    border-bottom: 4px solid #007AFF;
+}
+.overlays .window .tabs .tab {
+    display: none;
+    margin: 0 10px 10px;
+}
+.overlays .window .tabs .tab.active {
+    display: block;
+}
+.overlays .window .info {
+    max-width: 300px;
+    margin: 10px;
+}
+
+/* Inputs / Labels
+======================== */
+.input {
+    display: flex;
+    flex-direction: row;
+    margin: 0 10px;
+    padding: 4px;
+}
+.input:hover {
+    background: #f5f5f5;
+}
+.input .label {
+    flex: initial;
+    margin-right: 4px;
+    height: 28px;
+    line-height: 28px;
+}
+.input input {
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    color: #007AFF;
+}
+.input input[type="password"] {
+    letter-spacing: 1px;
 }

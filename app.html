@@ -45,7 +45,7 @@
                                                       { &quot;label&quot;: &quot;Alle schlie&szlig;en&quot;, &quot;cmd&quot;: &quot;tabs.closeall&quot; },
                                                       &quot;|&quot;,
                                                       { &quot;label&quot;: &quot;Neues Projekt&quot;, &quot;cmd&quot;: &quot;window.newproject&quot; },
-                                                      { &quot;label&quot;: &quot;Projekt &ouml;ffnen&quot;, &quot;cmd&quot;: &quot;window.projects&quot; },
+                                                      { &quot;label&quot;: &quot;Projekte verwalten&quot;, &quot;cmd&quot;: &quot;window.projects&quot; },
                                                       &quot;|&quot;,
                                                       { &quot;label&quot;: &quot;Beenden&quot;, &quot;cmd&quot;: &quot;app.close&quot; }
                                                       ]">
@@ -114,34 +114,78 @@
                         <h1>Neues Projekt</h1>
                     </div>
                     
-                    <div class="tabs" data-tabs="{ &quot;local&quot;: &quot;Lokal&quot;, &quot;remote&quot;: &quot;FTP&quot; }">
-                        <div class="tab local"></div>
-                        <div class="tab remote"></div>
+                    <div class="input">
+                        <span class="label">Label:</span>
+                        <input class="txt" type="text" />
                     </div>
                     
-                    <div class="footer"></div>
+                    <div class="tabs">
+                        <div class="tab-nav">
+                            <div class="entry active" data-tab="local">Lokal</div>
+                            <div class="entry" data-tab="remote">FTP</div>
+                        </div>
+                        <div class="tab local active">
+                            <p class="info">Klicke auf &quot;Ok&quot;, um einen lokalen Ordner auszuw&auml;hlen</p>
+                        </div>
+                        <div class="tab remote">
+                            <div class="input">
+                                <span class="label">Server:</span>
+                                <input class="txt" type="text" />
+                            </div>
+                            <div class="input">
+                                <span class="label">Benutzername:</span>
+                                <input class="txt" type="text" />
+                            </div>
+                            <div class="input">
+                                <span class="label">Passwort:</span>
+                                <input class="txt" type="password" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer">
+                        <div class="btn" data-click="window.abort">Abbrechen</div>
+                        <div class="btn" data-click="window.ok">Ok</div>
+                    </div>
                 </div>
                 <div class="window projects">
                     <div class="header">
                         <h1>Meine Projekte</h1>
                     </div>
                     
-                    <div class="tabs" data-tabs="{ &quot;local&quot;: &quot;Lokal&quot;, &quot;remote&quot;: &quot;FTP&quot; }">
-                        <div class="tab local"></div>
-                        <div class="tab remote"></div>
+                    <div class="tabs">
+                        <div class="tab-nav">
+                            <div class="entry active" data-tab="all">Alle</div>
+                            <div class="entry" data-tab="local">Lokal</div>
+                            <div class="entry" data-tab="remote">FTP</div>
+                        </div>
+                        <div class="tab all active">
+                        </div>
+                        <div class="tab local">
+                        </div>
+                        <div class="tab remote">
+                        </div>
                     </div>
+                    
                 </div>
                 <div class="window settings">
                     <div class="header">
                         <h1>Einstellungen</h1>
                     </div>
                     
+                    <div class="footer">
+                        <div class="btn" data-click="window.abort">Abbrechen</div>
+                        <div class="btn" data-click="window.ok">Speichern</div>
+                    </div>
                 </div>
                 <div class="window about">
                     <div class="header">
                         <h1>&Uuml;ber</h1>
                     </div>
                     
+                    <div class="footer">
+                        <div class="btn" data-click="window.abort">Fertig</div>
+                    </div>
                 </div>
                 
             </div>
