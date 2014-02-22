@@ -60,6 +60,9 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
         $(this).parent().find(".entry").removeClass("active");
         $(this).addClass("active");
         $(this).parents(".tabs").find(".tab").removeClass("active").parent().find("."+c).addClass("active");
+        if ($(this).parents(".tabs").find(".currenttab").size() > 0) {
+            $(this).parents(".tabs").find(".currenttab").val(c);
+        }
     });
     
     $(".tree").on("click", ".dir", function(evt) {

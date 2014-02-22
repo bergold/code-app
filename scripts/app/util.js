@@ -31,12 +31,17 @@ define({
     },
     
     mergeObj: function(base, top) {
-        for (var i in base) {
+        var proto = Object.create(base);
+        for (var i in proto) {
             if (top[i]) {
-                base[i] = top[i];
+                proto[i] = top[i];
             }
         }
-        return base;
+        return proto;
+    },
+    
+    objPush: function(obj, key, val) {
+        
     }
     
 });

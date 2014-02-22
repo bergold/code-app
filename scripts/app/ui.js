@@ -3,9 +3,9 @@ define(['lib/jquery', 'communication', 'util'], function($, cmd, util) {
     var ui = {
         
         initClickLayer: function(white, onclick) {
+            var thiz = this;
             $(".overlays .clicklayer").off().on("click", function(e) {
-                $(this).removeClass("active white");
-                onclick(e);
+                onclick.call(thiz, e);
             }).toggleClass("white", white).addClass("active");
         },
         
@@ -52,11 +52,14 @@ define(['lib/jquery', 'communication', 'util'], function($, cmd, util) {
             return $("<div></div>").addClass("entry").append("<span class=\"icon icon-"+icon+"\"></span>").append("<span class=\"label\">"+name+"</span>");
         },
         
+        currentWindow: '',
         
         showWindow: function(name) {
+            this.currentWindow = name;
             $(".window."+name).addClass("active");
             this.initClickLayer(true, function() {
                 $(".window."+name).removeClass("active");
+                this.clearClickLayer();
             });
         }
         
@@ -74,6 +77,29 @@ define(['lib/jquery', 'communication', 'util'], function($, cmd, util) {
     cmd.on("window.about", function(e) {
         ui.showWindow("about");
     });
+    
+    cmd.on("window.abort", function(e) {
+        if (ui.currentWindow!=='') {
+            $(".window."+ui.currentWindow).removeClass("active");
+            ui.clearClickLayer();
+        }
+    });
+    cmd.on("window.ok", function(e) {
+        if (ui.currentWindow!=='') {
+            var forms = $("form[data-submit]", ".window."+ui.currentWindow);
+            if (forms.size() > 0) {
+                forms.each(function() {
+                    var c = $(this).attr("data-submit"), f = {};
+                    $("input", this).each(function() {
+                        util.objPush(f, $(this).attr("name"), $(this).val());
+                    });
+                    cmd.trigger(c, f);
+                });
+            }
+        }
+        cmd.trigger("window.abort");
+    });
+    
     
     return ui;
     
