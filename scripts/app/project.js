@@ -19,6 +19,7 @@ define(['storage', 'localfile', 'remotefile', 'communication', 'util'], function
             if (!this._dir && (dir || this._config.dirid)) {
                 if (dir) {
                     this._config.dirid = lfile.retainEntry(dir);
+                    this._dir = dir;
                     this.save();
                     this.ready = true;
                     this.onready(this);
@@ -48,10 +49,10 @@ define(['storage', 'localfile', 'remotefile', 'communication', 'util'], function
     cP.prototype.getConfig = function() {
         return this._config;
     };
-    
     cP.prototype.getLabel = function() {
-        
+        return this._config.label;
     };
+    
     cP.prototype.getFullPath = function() {
         
     };
@@ -169,7 +170,7 @@ define(['storage', 'localfile', 'remotefile', 'communication', 'util'], function
                 lfile.chooseDir(function(etr) {
                     if (etr) {
                         var name = util.getLocalProjectname(etr.name);
-                        cb((new cP(name, config)).init(etr))
+                        cb((new cP(name, config)).init(etr));
                     } else {
                         cb(false);
                     }

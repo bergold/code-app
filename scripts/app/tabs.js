@@ -16,6 +16,8 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
             this.openproject = p;
             this.openfiles = [];
             this.filetree = undefined;
+            
+            cmd.trigger("app.projectchanged", p);
 
             var r = function(pr) {
                 pr.getFiletree((function(ft) {
@@ -80,6 +82,11 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
         },
         
     };
+    
+    cmd.on("tabs.newproject", function(e) {
+        var r = (e.tab=="remote");
+        tabs.newProject(e.label, r ? e.ftp : undefined);
+    });
     
     cmd.on("tabs.chooseproject", function(e) {
         tabs.chooseProject(e.data);

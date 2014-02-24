@@ -41,7 +41,16 @@ define({
     },
     
     objPush: function(obj, key, val) {
-        
+        var p = key.split('.'),
+            k = p.pop();
+            o = obj;
+        for (var i = 0; i < p.length; i++) {
+            if (o[p[i]] === undefined) {
+                o[p[i]] = {};
+            }
+            o = o[p[i]];
+        }
+        o[k] = val;
     }
     
 });

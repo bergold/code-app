@@ -25,6 +25,23 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
             a.unshift({ "label": pl[i].label + " (" + i + ")", "cmd": "tabs.chooseproject", "data": i });
         }
         $(".sidebar .menubar .entry").attr("data-menu", JSON.stringify(a));
+        
+        $(".window.projects .all").empty();
+        $(".window.projects .local").empty();
+        $(".window.projects .remote").empty();
+        for (var i in pl) {
+            $(".window.projects .all").append(ui.createProjectEntry(pl[i]));
+            if (pl[i].remote) {
+                $(".window.projects .remote").append(ui.createProjectEntry(pl[i]));
+            } else {
+                $(".window.projects .local").append(ui.createProjectEntry(pl[i]));
+            }
+        }
+    });
+    
+    cmd.on("app.projectchanged", function(p) {
+        $(".sidebar .menubar .entry .projectlabel").text(p.getLabel());
+        $(".tree").empty();
     });
     
     cmd.on("app.filetreechanged", function(ft) {

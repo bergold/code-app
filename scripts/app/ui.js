@@ -52,6 +52,13 @@ define(['lib/jquery', 'communication', 'util'], function($, cmd, util) {
             return $("<div></div>").addClass("entry").append("<span class=\"icon icon-"+icon+"\"></span>").append("<span class=\"label\">"+name+"</span>");
         },
         
+        /* Creates an entry for a project in the projects window
+         * @param {cP} p
+         */
+        createProjectEntry: function(p) {
+            return $("<div></div>").text(p.label);
+        },
+        
         currentWindow: '',
         
         showWindow: function(name) {
