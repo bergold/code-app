@@ -1,4 +1,4 @@
-define(['project', 'editor', 'communication'], function(project, editor, cmd) {
+define(['project', 'editor', 'communication', 'util'], function(project, editor, cmd, util) {
     
     var tabs = {
         
@@ -19,11 +19,12 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
             
             cmd.trigger("app.projectchanged", p);
 
-            var r = function(pr) {
-                pr.getFiletree((function(ft) {
-                    this.filetree = ft;
+            var thiz = this,
+                r = function(pr) {
+                pr.getFiletree(function(ft) {
+                    thiz.filetree = ft;
                     cmd.trigger("app.filetreechanged", ft);
-                }).bind(this));
+                });
             };
             if (p.ready) {
                 r(p);
@@ -56,17 +57,19 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
             if (!this.openfiles[ti]) return false;
             this.openfiles[ti].active = true;
         },
-        newTab: function(path) {
-            var f = this.openproject.getEntryToPath(path);
+        openTab: function(path) {
+            var f = this.getEntryToPath(path);
             if (!f) {
                 return cmd.trigger("error.FILE_NOT_FOUND", path), false;
             }
+            console.log(f);
             var tab = {
-                doc: editor.newDoc("", mode),
+                doc: editor.newDoc("", util.getMode(f.name)),
                 entry: f,
                 active: false
             };
             this.openfiles.push(tab);
+            editor.enable();
             cmd.trigger("app.updatefiles");
             return tab;
         },
@@ -81,15 +84,30 @@ define(['project', 'editor', 'communication'], function(project, editor, cmd) {
             return this.filetree;
         },
         
+        
+        getEntryToPath: function(path) {
+            var p = path.split('.'),
+                f = p.pop(),
+                d = this.filetree;
+            console.log(p, f, d);
+            for (var i = 0; i < p.length; i++) {
+                d = d.folder[p[i]];
+            }
+            return d.files[f];
+        },
+        
     };
     
     cmd.on("tabs.newproject", function(e) {
         var r = (e.tab=="remote");
         tabs.newProject(e.label, r ? e.ftp : undefined);
     });
-    
     cmd.on("tabs.chooseproject", function(e) {
         tabs.chooseProject(e.data);
+    });
+    
+    cmd.on("tabs.openfile", function(e) {
+        tabs.openTab(e.data);
     });
     
     return {

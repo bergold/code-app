@@ -45,30 +45,36 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
     });
     
     cmd.on("app.filetreechanged", function(ft) {
-        var addfiles = function(subdir) {
+        var addfiles = function(subdir, path) {
             var elm = $("<div></div>");
             
             for (var i = 0; i < subdir.folder.length; i++) {
-                $("<div></div>").addClass("dir closed").append(ui.createEntry(subdir.folder[i].dir.name, "arrow-right")).append(addfiles(subdir.folder[i]).addClass("subdir")).appendTo(elm);
+                $("<div></div>").addClass("dir closed")
+                    .append(ui.createEntry(subdir.folder[i].dir.name, "arrow-right"))
+                    .append(addfiles(subdir.folder[i], path+i+".").addClass("subdir"))
+                .appendTo(elm);
             }
             
             for (var i = 0; i < subdir.files.length; i++) {
-                ui.createEntry(subdir.files[i].name).addClass("file").appendTo(elm);
+                ui.createEntry(subdir.files[i].name).addClass("file").attr("cmd-data", path+i).attr("data-dblclick", "tabs.openfile").appendTo(elm);
             }
             
             return elm;
         };
-        $(".tree").empty().append(addfiles(ft));
+        $(".tree").empty().append(addfiles(ft, ""));
     });
     
     
     // ui-bindings
-    $("body").on("click", "[data-click]", function(evt) {
+    var triggercmd = function(evt) {
         var e = { trigger: this, event: evt };
         var d = $(this).attr("cmd-data");
         if (d) e.data = d;
-        cmd.trigger($(this).attr("data-click"), e);
-    });
+        cmd.trigger($(this).attr("data-"+evt.type), e);
+    };
+    $("body").on("click", "[data-click]", triggercmd);
+    $("body").on("dblclick", "[data-dblclick]", triggercmd);
+    
     $("body").on("click", "[data-menu]", function(evt) {
         $(this).hasClass("disabled") || ui.createMenu(this);
     });
