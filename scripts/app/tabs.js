@@ -62,14 +62,18 @@ define(['project', 'editor', 'communication', 'util'], function(project, editor,
             if (!f) {
                 return cmd.trigger("error.FILE_NOT_FOUND", path), false;
             }
-            console.log(f);
+            var nd = editor.newDoc("", util.getMode(f.name));
+            this.openproject.readFile(f, function(data) {
+                nd.setValue(data);
+            });
             var tab = {
-                doc: editor.newDoc("", util.getMode(f.name)),
+                doc: nd,
                 entry: f,
                 active: false
             };
             this.openfiles.push(tab);
             editor.enable();
+            editor.setDoc(nd);
             cmd.trigger("app.updatefiles");
             return tab;
         },
@@ -89,7 +93,6 @@ define(['project', 'editor', 'communication', 'util'], function(project, editor,
             var p = path.split('.'),
                 f = p.pop(),
                 d = this.filetree;
-            console.log(p, f, d);
             for (var i = 0; i < p.length; i++) {
                 d = d.folder[p[i]];
             }

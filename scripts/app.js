@@ -16,6 +16,9 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
     cmd.on("app.maximize", function() {
         chrome.app.window.current().isMaximized() ? chrome.app.window.current().restore() : chrome.app.window.current().maximize();
     });
+    cmd.on("app.minimize", function() {
+        chrome.app.window.current().minimize();
+    });
     
     cmd.on("app.projectlistchanged", function(pl) {
         var a = JSON.parse($(".sidebar .menubar .entry").removeClass("disabled").attr("data-menu"));

@@ -56,6 +56,7 @@ define(['storage', 'localfile', 'remotefile', 'communication', 'util'], function
     cP.prototype.getFullPath = function() {
         
     };
+    
     cP.prototype.getFiletree = function(cb) {
         if (this._config.remote) {
             
@@ -85,12 +86,12 @@ define(['storage', 'localfile', 'remotefile', 'communication', 'util'], function
         }
     };
     
-    cP.prototype.getEntryToPath = function(path) {
-        
-    };
-    
-    cP.prototype.readFile = function() {
-        
+    cP.prototype.readFile = function(etr, cb) {
+        if (this._config.remote) {
+            
+        } else {
+            lfile.readFile(etr, cb);
+        }
     };
     cP.prototype.writeFile = function() {
         

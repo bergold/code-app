@@ -2,8 +2,9 @@
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
-  font-family: monospace;
-  font-size: 14px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 12px;
+  line-height: 15px !important;
   height: auto;
 }
 .CodeMirror-scroll {
