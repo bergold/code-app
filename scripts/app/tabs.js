@@ -18,6 +18,8 @@ define(['project', 'editor', 'communication', 'util'], function(project, editor,
             this.filetree = undefined;
             
             cmd.trigger("app.projectchanged", p);
+            cmd.trigger("app.fileschanged", []);
+            editor.disable();
 
             var thiz = this,
                 r = function(pr) {
@@ -67,6 +69,7 @@ define(['project', 'editor', 'communication', 'util'], function(project, editor,
             var nd = editor.newDoc("", util.getMode(f.name));
             this.openproject.readFile(f, function(data) {
                 nd.setValue(data);
+                nd.markClean();
                 editor.enable();
             });
             var tab = {

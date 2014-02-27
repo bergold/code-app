@@ -50,7 +50,7 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
     cmd.on("app.fileschanged", function(f) {
         var frg = $("<div></div>");
         for (var i=0; i<f.length; i++) {
-            frg.append(ui.createEntry(f[i].entry.name).attr("data-click", "tabs.select").attr("cmd-data", i).toggleClass("active", f[i].active));
+            frg.append(ui.createEntry(f[i].entry.name).attr("data-click", "tabs.select").attr("cmd-data", i).toggleClass("active", f[i].active).toggleClass("changed", f[i].doc.isClean()));
         }
         $(".files").empty().append(frg);
     });
