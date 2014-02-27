@@ -53,9 +53,11 @@ define(['project', 'editor', 'communication', 'util'], function(project, editor,
             
         },
         selectTab: function(ti) {
-            for (var i = 0; i < this.openfiles; i++) this.openfiles[i].active = false;
+            for (var i = 0; i < this.openfiles.length; i++) this.openfiles[i].active = false;
             if (!this.openfiles[ti]) return false;
+            editor.setDoc(this.openfiles[ti].doc);
             this.openfiles[ti].active = true;
+            cmd.trigger("app.fileschanged", this.getTabs());
         },
         openTab: function(path) {
             var f = this.getEntryToPath(path);
@@ -65,16 +67,15 @@ define(['project', 'editor', 'communication', 'util'], function(project, editor,
             var nd = editor.newDoc("", util.getMode(f.name));
             this.openproject.readFile(f, function(data) {
                 nd.setValue(data);
+                editor.enable();
             });
             var tab = {
                 doc: nd,
                 entry: f,
                 active: false
             };
-            this.openfiles.push(tab);
-            editor.enable();
-            editor.setDoc(nd);
-            cmd.trigger("app.updatefiles");
+            var i = this.openfiles.push(tab);
+            this.selectTab(i-1);
             return tab;
         },
         saveTab: function() {
@@ -111,6 +112,9 @@ define(['project', 'editor', 'communication', 'util'], function(project, editor,
     
     cmd.on("tabs.openfile", function(e) {
         tabs.openTab(e.data);
+    });
+    cmd.on("tabs.select", function(e) {
+        tabs.selectTab(e.data);
     });
     
     return {

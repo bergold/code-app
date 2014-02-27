@@ -95,7 +95,6 @@ html, body {
 
 .tree {
     flex: 1;
-    overflow: auto;
 }
 
 /* Colors
@@ -178,19 +177,46 @@ html, body {
     padding: 0;
 }
 
-/* Filetree
+/* Files / Filetree / Fileentry
 ======================== */
+.files,
 .tree {
     padding: 20px;
+    overflow: auto;
 }
+.files .entry,
 .tree .entry {
     display: flex;
     flex-direction: row;
+    position: relative;
     height: 28px;
 }
+.files .entry.active,
+.tree .entry.active {
+    color: rgba(0, 122, 255, 0.8);
+}
+.files .entry.active:before,
+.tree .entry.active:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 4px;
+    right: -20px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 8px solid #f5f5f5;
+}
+.files .entry:hover .label,
 .tree .entry:hover .label {
     color: #fff;
 }
+.files .entry.active:hover .label,
+.tree .entry.active:hover .label {
+    color: #007AFF;
+}
+.files .entry .icon,
 .tree .entry .icon {
     display: block;
     flex: initial;
@@ -200,6 +226,7 @@ html, body {
     font-size: 16px;
     text-align: center;
 }
+.files .entry .label,
 .tree .entry .label {
     display: block;
     flex: 1;

@@ -47,6 +47,14 @@ require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, t
         $(".tree").empty();
     });
     
+    cmd.on("app.fileschanged", function(f) {
+        var frg = $("<div></div>");
+        for (var i=0; i<f.length; i++) {
+            frg.append(ui.createEntry(f[i].entry.name).attr("data-click", "tabs.select").attr("cmd-data", i).toggleClass("active", f[i].active));
+        }
+        $(".files").empty().append(frg);
+    });
+    
     cmd.on("app.filetreechanged", function(ft) {
         var addfiles = function(subdir, path) {
             var elm = $("<div></div>");
