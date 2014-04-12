@@ -1,28 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="codesocket">
     <head>
         
         <title>CodeSocket</title>
         
         <link href="fonts/sourcecodepro/style.css" type="text/css" rel="stylesheet" media="all" />
         <link href="fonts/icomoon/style.css" type="text/css" rel="stylesheet" media="all" />
-        <link href="styles/codemirror.css" type="text/css" rel="stylesheet" media="all" />
-        <link href="styles/base16-light.css" type="text/css" rel="stylesheet" media="all" />
         
-        <link href="styles/app.css" type="text/css" rel="stylesheet" media="all" />
+        <link href="css/codemirror.css" type="text/css" rel="stylesheet" media="all" />
+        <link href="css/base16-light.css" type="text/css" rel="stylesheet" media="all" />
         
-        <script data-main="scripts/app" src="scripts/require.js"></script>
+        <link href="css/app.css" type="text/css" rel="stylesheet" media="all" />
+        
+        <script type="text/javascript" src="lib/codemirror.js"></script>
+        <script type="text/javascript" src="lib/angular-1.2.16.js"></script>
+        
+        <script type="text/javascript" src="app/modules/angular-animate-1.2.16.js"></script>
+        
+        <script type="text/javascript" src="app/app.js"></script>
+        
+        <script type="text/javascript" src="app/Factories.js"></script>
+        <script type="text/javascript" src="app/Filters.js"></script>
+        <script type="text/javascript" src="app/Directives.js"></script>
+        <script type="text/javascript" src="app/Controllers.js"></script>
+        <script type="text/javascript" src="app/Values.js"></script>
         
     </head>
-    <body class="no-editor">
+    <body>
         
         <div class="wrapper">
             <div class="sidebar">
                 <div class="menubar">
-                    <div class="entry disabled" data-menu="[
-                                                  { &quot;label&quot;: &quot;Neues Projekt...&quot;, &quot;cmd&quot;: &quot;window.newproject&quot; },
-                                                  { &quot;label&quot;: &quot;Projekte verwalten&quot;, &quot;cmd&quot;: &quot;window.projects&quot; }
-                                                  ]">
+                    <div class="entry" menu="projects">
                         <span class="projectlabel">Kein Projekt gew&auml;hlt</span>
                         <span class="icon"></span>
                     </div>
@@ -30,70 +39,25 @@
                 <div class="files">
                 </div>
                 <div class="tree">
-                    
                 </div>
             </div>
             <div class="main">
                 <div class="menubar">
                     <div class="entries">
-                        <div class="entry" data-menu="[
-                                                      { &quot;label&quot;: &quot;Neue Datei&quot;, &quot;cmd&quot;: &quot;tabs.new&quot; },
-                                                      { &quot;label&quot;: &quot;&Ouml;ffnen&quot;, &quot;cmd&quot;: &quot;tabs.open&quot; },
-                                                      &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Speichern&quot;, &quot;cmd&quot;: &quot;tabs.save&quot; },
-                                                      { &quot;label&quot;: &quot;Alle Speichern&quot;, &quot;cmd&quot;: &quot;tabs.saveall&quot; },
-                                                      &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Schlie&szlig;en&quot;, &quot;cmd&quot;: &quot;tabs.close&quot; },
-                                                      { &quot;label&quot;: &quot;Alle schlie&szlig;en&quot;, &quot;cmd&quot;: &quot;tabs.closeall&quot; },
-                                                      &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Neues Projekt&quot;, &quot;cmd&quot;: &quot;window.newproject&quot; },
-                                                      { &quot;label&quot;: &quot;Projekte verwalten&quot;, &quot;cmd&quot;: &quot;window.projects&quot; },
-                                                      &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Beenden&quot;, &quot;cmd&quot;: &quot;app.close&quot; }
-                                                      ]">
+                        <div class="entry" menu="file">
                             Datei
                         </div>
-                        <div class="entry" data-menu="[
-                                                      { &quot;label&quot;: &quot;R&uuml;ckg&auml;ngig&quot;, &quot;cmd&quot;: &quot;editor.undo&quot; },
-                                                      { &quot;label&quot;: &quot;Wiederholen&quot;, &quot;cmd&quot;: &quot;editor.redo&quot; },
-                                                      &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Ausschneiden&quot;, &quot;cmd&quot;: &quot;editor.cut&quot; },
-                                                      { &quot;label&quot;: &quot;Kopieren&quot;, &quot;cmd&quot;: &quot;editor.copy&quot; },
-                                                      { &quot;label&quot;: &quot;Einf&uuml;gen&quot;, &quot;cmd&quot;: &quot;editor.paste&quot; },
-                                                      &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Alles ausw&auml;hlen&quot;, &quot;cmd&quot;: &quot;editor.selectall&quot; },
-                                                      { &quot;label&quot;: &quot;Zeile ausw&auml;hlen&quot;, &quot;cmd&quot;: &quot;editor.selectline&quot; },
-                                                      &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Suchen&quot;, &quot;cmd&quot;: &quot;editor.search&quot; },
-                                                      { &quot;label&quot;: &quot;Im Projekt suchen&quot;, &quot;cmd&quot;: &quot;editor.searchproject&quot; },
-                                                      { &quot;label&quot;: &quot;Ersetzen&quot;, &quot;cmd&quot;: &quot;editor.replace&quot; },
-                                                      &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Einr&uuml;cken&quot;, &quot;cmd&quot;: &quot;editor.indentincrease&quot; },
-                                                      { &quot;label&quot;: &quot;Ausr&uuml;cken&quot;, &quot;cmd&quot;: &quot;editor.indentdecrease&quot; },
-                                                      { &quot;label&quot;: &quot;Dublizieren&quot;, &quot;cmd&quot;: &quot;editor.dublicate&quot; },
-                                                      { &quot;label&quot;: &quot;Zeile l&ouml;schen&quot;, &quot;cmd&quot;: &quot;editor.removeline&quot; },
-                                                      { &quot;label&quot;: &quot;Zeile nach oben verschieben&quot;, &quot;cmd&quot;: &quot;editor.movelineup&quot; },
-                                                      { &quot;label&quot;: &quot;Zeile nach unten verschieben&quot;, &quot;cmd&quot;: &quot;editor.movelinedown&quot; },
-                                                      &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Zeile (aus)kommentieren&quot;, &quot;cmd&quot;: &quot;editor.commentline&quot; },
-                                                      { &quot;label&quot;: &quot;Block (aus)kommentieren&quot;, &quot;cmd&quot;: &quot;editor.commentblock&quot; },
-                                                      &quot;|&quot;,
-                                                      { &quot;label&quot;: &quot;Leerzeichen in Tabs umwandeln&quot;, &quot;cmd&quot;: &quot;editor.spacestotabs&quot; },
-                                                      { &quot;label&quot;: &quot;Tabs in Leerzeichen umwandeln&quot;, &quot;cmd&quot;: &quot;editor.tabstospaces&quot; }
-                                                      ]">
+                        <div class="entry" menu="edit">
                             Bearbeiten
                         </div>
-                        <div class="entry" data-menu="[
-                                                      { &quot;label&quot;: &quot;Einstellungen&quot;, &quot;cmd&quot;: &quot;window.settings&quot; },
-                                                      { &quot;label&quot;: &quot;&Uuml;ber&quot;, &quot;cmd&quot;: &quot;window.about&quot; }
-                                                      ]">
+                        <div class="entry" menu="extras">
                             Extras
                         </div>
                     </div>
                     <div class="buttons">
-                        <div class="btn icon icon-checkbox-unchecked" data-click="app.maximize">
+                        <div class="btn icon icon-checkbox-unchecked" ng-click="maximize()">
                         </div>
-                        <div class="btn icon icon-close" data-click="app.close">
+                        <div class="btn icon icon-close" ng-click="close()">
                         </div>
                     </div>
                 </div>
@@ -111,108 +75,6 @@
             <div class="menu">
             </div>
             <div class="windows">
-                <div class="window newproject">
-                    <div class="header">
-                        <h1>Neues Projekt</h1>
-                    </div>
-                    
-                    <form data-submit="tabs.newproject">
-                        <div class="input">
-                            <span class="label">Label:</span>
-                            <input class="txt" name="label" type="text" />
-                        </div>
-                        
-                        <div class="tabs">
-                            <div class="tab-nav">
-                                <div class="entry active" data-tab="local">Lokal</div>
-                                <div class="entry" data-tab="remote">FTP</div>
-                            </div>
-                            <input class="currenttab" type="hidden" name="tab" value="local" />
-                            <div class="tab local active">
-                                <p class="info">Klicke auf &quot;Ok&quot;, um einen lokalen Ordner auszuw&auml;hlen</p>
-                            </div>
-                            <div class="tab remote">
-                                <div class="input">
-                                    <span class="label">Server:</span>
-                                    <input class="txt" name="ftp.server" type="text" />
-                                </div>
-                                <div class="input">
-                                    <span class="label">Port:</span>
-                                    <input class="txt" name="ftp.server" type="text" value="21" />
-                                </div>
-                                <div class="input">
-                                    <span class="label">Benutzername:</span>
-                                    <input class="txt" name="ftp.un" type="text" />
-                                </div>
-                                <div class="input">
-                                    <span class="label">Passwort:</span>
-                                    <input class="txt" name="ftp.pw" type="password" />
-                                </div>
-                                <div class="input">
-                                    <span class="label">Pfad:</span>
-                                    <input class="txt" name="ftp.path" type="text" />
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    
-                    <div class="footer">
-                        <div class="btn" data-click="window.abort">Abbrechen</div>
-                        <div class="btn" data-click="window.ok">Ok</div>
-                    </div>
-                </div>
-                <div class="window projects">
-                    <div class="header">
-                        <h1>Meine Projekte</h1>
-                    </div>
-                    
-                    <div class="tabs">
-                        <div class="tab-nav">
-                            <div class="entry active" data-tab="all">Alle</div>
-                            <div class="entry" data-tab="local">Lokal</div>
-                            <div class="entry" data-tab="remote">FTP</div>
-                        </div>
-                        <div class="tab all active">
-                        </div>
-                        <div class="tab local">
-                        </div>
-                        <div class="tab remote">
-                        </div>
-                    </div>
-                    
-                    <div class="footer">
-                        <div class="btn" data-click="window.abort">Fertig</div>
-                    </div>
-                </div>
-                <div class="window settings">
-                    <div class="header">
-                        <h1>Einstellungen</h1>
-                    </div>
-                    
-                    <div class="footer">
-                        <div class="btn" data-click="window.abort">Abbrechen</div>
-                        <div class="btn" data-click="window.ok">Speichern</div>
-                    </div>
-                </div>
-                <div class="window about">
-                    <div class="header">
-                        <h1>&Uuml;ber</h1>
-                    </div>
-                    
-                    <div class="input">
-                        <span class="label">Entwickler:</span>
-                        <input class="txt" name="version" type="text" value="Emil Bergold" readonly="readonly" />
-                    </div>
-                    <div class="input">
-                        <span class="label">Version:</span>
-                        <input class="txt" name="version" type="text" value="0.0.1" readonly="readonly" />
-                    </div>
-                    
-                    <div class="footer">
-                        <div class="btn" data-click="window.abort">Fertig</div>
-                    </div>
-                </div>
-                
             </div>
         </div>
         

@@ -1,0 +1,50 @@
+<div class="window newproject">
+    <div class="header">
+        <h1>Neues Projekt</h1>
+    </div>
+    
+    <form data-submit="tabs.newproject">
+        <div class="input">
+            <span class="label">Label:</span>
+            <input class="txt" name="label" type="text" />
+        </div>
+        
+        <div class="tabs">
+            <div class="tab-nav">
+                <div class="entry active" data-tab="local">Lokal</div>
+                <div class="entry" data-tab="remote">FTP</div>
+            </div>
+            <input class="currenttab" type="hidden" name="tab" value="local" />
+            <div class="tab local active">
+                <p class="info">Klicke auf &quot;Ok&quot;, um einen lokalen Ordner auszuw&auml;hlen</p>
+            </div>
+            <div class="tab remote">
+                <div class="input">
+                    <span class="label">Server:</span>
+                    <input class="txt" name="ftp.server" type="text" />
+                </div>
+                <div class="input">
+                    <span class="label">Port:</span>
+                    <input class="txt" name="ftp.server" type="text" value="21" />
+                </div>
+                <div class="input">
+                    <span class="label">Benutzername:</span>
+                    <input class="txt" name="ftp.un" type="text" />
+                </div>
+                <div class="input">
+                    <span class="label">Passwort:</span>
+                    <input class="txt" name="ftp.pw" type="password" />
+                </div>
+                <div class="input">
+                    <span class="label">Pfad:</span>
+                    <input class="txt" name="ftp.path" type="text" />
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <div class="footer">
+        <div class="btn" data-click="window.abort">Abbrechen</div>
+        <div class="btn" data-click="window.ok">Ok</div>
+    </div>
+</div>

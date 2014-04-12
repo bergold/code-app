@@ -17,7 +17,7 @@
         "description": "The label text for the edit menubar entry"
     },
     "lblSettings": {
-        "message": "Settings",
-        "description": "The label text for the settings menubar entry"
+        "message": "Extras",
+        "description": "The label text for the extras menubar entry"
     }
 }

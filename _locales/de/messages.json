@@ -1,0 +1,23 @@
+{
+    "appName": {
+        "message": "CodeSocket",
+        "description": "Der Name der App."
+    },
+    "appDesc": {
+        "message": "Ein einfacher Web-Development-Editor",
+        "description": "Die Beschreibung der App"
+    },
+    
+    "lblFile": {
+        "message": "Datei",
+        "description": "Die Beschriftung fuer den Datei-Menue-Eintrag"
+    },
+    "lblEdit": {
+        "message": "Bearbeiten",
+        "description": "Die Beschriftung fuer den Bearbeiten-Menue-Eintrag"
+    },
+    "lblSettings": {
+        "message": "Extras",
+        "description": "Die Beschriftung fuer den Extras-Menue-Eintrag"
+    }
+}
