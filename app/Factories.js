@@ -16,7 +16,7 @@
 
 
 // tabs-factory
-codesocket.factory('tabs', function($q, project, util) {
+codesocket.factory('tabs', function($q, $rootScope, project, util) {
     
     var openfiles  = [];
     var actproject = null;
@@ -25,28 +25,45 @@ codesocket.factory('tabs', function($q, project, util) {
     var setProject = function(p) { actproject = p; };
     
     var getFiles       = function() { return openfiles; };
-    var getFilesToSave = function() { return openfiles.filter(function(f, i, _) { return !f.clean; }); };
+    var getFilesToSave = function() { return openfiles.filter(function(f, i, _) { return !f.doc.isClean(); }); };
     var openFile = function(fileentry) {
-        var nd = editor.newDoc("", util.getMode(fileentry.name));
+        // [todo] check whether the file is already open
+        var nd = CodeMirror.Doc("", util.getMode(fileentry.name));
         actproject.readFile(fileentry).then(function(data) {
             nd.setValue(data);
             nd.markClean();
-            editor.enable();
         });
         var tab = {
             doc: nd,
-            entry: f,
-            active: false,
-            clean: true
+            entry: fileentry,
+            active: false
         };
-        var i = this.openfiles.push(tab);
-        this.selectTab(i-1);
+        var i = openfiles.push(tab) -1;
+        selectFile(i);
         return tab;
     };
-    var selectFile = function(i) {};
-    var saveFile = function(i) {};
-    var saveAllFiles = function() {};
-    var closeFile = function(i) {};
+    var selectFile = function(i) {
+        angular.forEach(openfiles, function(f) { f.active = false; });
+        // [todo] bind file.doc to editor
+        openfiles[i].active = true;
+        $rootScope.$broadcast('activefilechanged', i, openfiles[i]);
+    };
+    var saveFile = function(i) {
+        var deferred = $q.defer();
+        // [todo] store file.doc.getValue() in file.entry
+        return deferred.promise;
+    };
+    var saveAllFiles = function() {
+        var promises = [];
+        angular.forEach(getFilesToSave(), function(f, i) {
+            promises.push(saveFile(i));
+        });
+        return $q.all(promises);
+    };
+    var closeFile = function(i) {
+        // [todo] check whether the file is clean
+        openfiles.splice(i, 1);
+    };
     
     var getFiletree = function() { return actproject !== null ? actproject.getFiletree() : false };
     
