@@ -24,17 +24,18 @@ codesocket.run(function($rootScope) {
 });
 
 // project functions
-codesocket.run(function($rootScope, project) {
+codesocket.run(function($rootScope, storage, project) {
     $rootScope.selectproject = function(pname) {
         project.open(pname).then(function(p) {
             tabs.setProject(p);
+            storage.set({lastproject:pname});
             $rootScope.$broadcast('projectchanged', p);
         });
     };
 });
 
 // start app lifecycle
-codesocket.run(function($rootScope, storage, project, tabs) {
+codesocket.run(function($rootScope, storage) {
     storage.get("lastproject").then(function(pname) {
         if (pname = pname.lastproject) {
             $rootScope.selectproject(pname);

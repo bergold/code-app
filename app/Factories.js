@@ -16,18 +16,56 @@
 
 
 // tabs-factory
-codesocket.factory('tabs', function($q, project) {
+codesocket.factory('tabs', function($q, project, util) {
     
-    var openfiles = [];
-    var project   = null;
+    var openfiles  = [];
+    var actproject = null;
     
-    var getProject = function() { return project; };
-    var setProject = function(p) { project = p; };
+    var getProject = function()  { return actproject; };
+    var setProject = function(p) { actproject = p; };
+    
+    var getFiles       = function() { return openfiles; };
+    var getFilesToSave = function() { return openfiles.filter(function(f, i, _) { return !f.clean; }); };
+    var openFile = function(fileentry) {
+        var nd = editor.newDoc("", util.getMode(fileentry.name));
+        actproject.readFile(fileentry).then(function(data) {
+            nd.setValue(data);
+            nd.markClean();
+            editor.enable();
+        });
+        var tab = {
+            doc: nd,
+            entry: f,
+            active: false,
+            clean: true
+        };
+        var i = this.openfiles.push(tab);
+        this.selectTab(i-1);
+        return tab;
+    };
+    var selectFile = function(i) {};
+    var saveFile = function(i) {};
+    var saveAllFiles = function() {};
+    var closeFile = function(i) {};
+    
+    var getFiletree = function() { return actproject !== null ? actproject.getFiletree() : false };
     
     return {
         getProject: getProject,
-        setProject: setProject
-    }
+        setProject: setProject,
+        
+        file: {
+            all: getFiles,
+            toSave: getFilesToSave,
+            open: openFile,
+            select: selectFile,
+            save: saveFile,
+            saveAll: saveAllFiles,
+            close: closeFile
+        },
+        
+        getFiletree: getFiletree
+    };
     
 });
 
