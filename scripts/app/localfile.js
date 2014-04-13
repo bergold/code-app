@@ -1,4 +1,4 @@
-define(function() {
+codesocket.factory('localfile', function() {
     
     var lfile = {
         

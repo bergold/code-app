@@ -8,9 +8,10 @@
  */
 
 
-var chat = angular.module('codesocket', ['ngAnimate']);
+var codesocket = angular.module('codesocket', ['ngAnimate']);
 
-chat.run(function($rootScope) {
+// public app functions
+codesocket.run(function($rootScope) {
     $rootScope.close = function() {
         chrome.app.window.current().close();
     }
@@ -20,4 +21,9 @@ chat.run(function($rootScope) {
     $rootScope.minimize = function() {
         chrome.app.window.current().minimize();
     }
+});
+
+// init the app
+codesocket.run(function() {
+    
 });
