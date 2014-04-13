@@ -1,9 +1,11 @@
 /*
  * File: Factories.js
  * Factories:
+ *   tabs         0%
  *   project     80%
  *   localfile  100%
  *   remotefile   0%
+ *   ftp          0%
  *   storage    100%
  *   util       100%
  *
@@ -11,6 +13,23 @@
  * @version: 1.0
  *
  */
+
+
+// tabs-factory
+codesocket.factory('tabs', function($q, project) {
+    
+    var openfiles = [];
+    var project   = null;
+    
+    var getProject = function() { return project; };
+    var setProject = function(p) { project = p; };
+    
+    return {
+        getProject: getProject,
+        setProject: setProject
+    }
+    
+});
 
 
 // project-factory
@@ -408,7 +427,13 @@ codesocket.factory('localfile', function($q) {
 // remotefile-factory
 codesocket.factory('remotefile', function() {
     return {};
-})
+});
+
+
+// remotefile-factory
+codesocket.factory('ftp', function() {
+    return {};
+});
 
 
 // storage-factory

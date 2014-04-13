@@ -1,4 +1,6 @@
-[
-{ "label": "Neues Projekt...", "cmd": "window.newproject" },
-{ "label": "Projekte verwalten", "cmd": "window.projects" }
-]
+<div class="menu" ng-controller="ProjectsCtrl">
+    <div class="menuentry" ng-repeat="project in projects" ng-click="selectproject(project.name)">{{project.label}} ({{project.name}})</div>
+    <div class="menuentry separator"></div>
+    <div class="menuentry">Neues Projekt...</div>
+    <div class="menuentry">Projekte verwalten</div>
+</div>

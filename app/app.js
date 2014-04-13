@@ -23,21 +23,21 @@ codesocket.run(function($rootScope) {
     }
 });
 
-// init the app
-codesocket.run(function($log, project) {
-    project.open('code-app').then(function(p) {
-        $log.log(p);
-        p.getFiletree().then(function(ft) {
-            $log.log("filetree", ft);
-        }, function(e) {
-            $log.error(e);
-        })
-    }, function(e) {
-        $log.error(e);
+// project functions
+codesocket.run(function($rootScope, project) {
+    $rootScope.selectproject = function(pname) {
+        project.open(pname).then(function(p) {
+            tabs.setProject(p);
+            $rootScope.$broadcast('projectchanged', p);
+        });
+    };
+});
+
+// start app lifecycle
+codesocket.run(function($rootScope, storage, project, tabs) {
+    storage.get("lastproject").then(function(pname) {
+        if (pname = pname.lastproject) {
+            $rootScope.selectproject(pname);
+        }
     });
-    /*project.list().then(function(p) {
-        $log.log(p);
-    }, function(e) {
-        $log.error(e);
-    });*/
 });
