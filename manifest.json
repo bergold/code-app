@@ -1,10 +1,11 @@
 {
     "manifest_version": 2,
-    "name": "__MSG_appName__",
-    "version": "0.0.1",
+    "name":    "__MSG_appName__",
+    "version": "0.2",
 
     "default_locale": "en",
-    "description": "__MSG_appDesc__",
+    "description":    "__MSG_appDesc__",
+    "author":         "Emil Bergold"
     // "update_url": "http://path/to/updateInfo.xml",
     
     "app": {
@@ -14,11 +15,11 @@
     },
     
     "icons": {
-        "16": "img/16x16.png",
-        "32": "img/32x32.png",
-        "48": "img/48x48.png",
-        "64": "img/64x64.png",
-        "96": "img/96x96.png",
+        "16":  "img/16x16.png",
+        "32":  "img/32x32.png",
+        "48":  "img/48x48.png",
+        "64":  "img/64x64.png",
+        "96":  "img/96x96.png",
         "128": "img/128x128.png",
         "256": "img/256x256.png"
     },

@@ -24,6 +24,20 @@ codesocket.run(function($rootScope) {
 });
 
 // init the app
-codesocket.run(function() {
-    
+codesocket.run(function($log, project) {
+    project.open('code-app').then(function(p) {
+        $log.log(p);
+        p.getFiletree().then(function(ft) {
+            $log.log("filetree", ft);
+        }, function(e) {
+            $log.error(e);
+        })
+    }, function(e) {
+        $log.error(e);
+    });
+    /*project.list().then(function(p) {
+        $log.log(p);
+    }, function(e) {
+        $log.error(e);
+    });*/
 });
