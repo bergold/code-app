@@ -1,9 +1,9 @@
 /*
  * File: Factories.js
  * Factories:
- *   tabs         0%
+ *   tabs        50%
  *   project     80%
- *   localfile  100%
+ *   localfile   90%
  *   remotefile   0%
  *   ftp          0%
  *   storage    100%
@@ -21,8 +21,13 @@ codesocket.factory('tabs', function($q, $rootScope, project, util) {
     var openfiles  = [];
     var actproject = null;
     
-    var getProject = function()  { return actproject; };
-    var setProject = function(p) { actproject = p; };
+    var getProject = function() {
+        return actproject;
+    };
+    var setProject = function(p) {
+        actproject = p;
+        $rootScope.$broadcast('projectchanged', p);
+    };
     
     var getFiles       = function() { return openfiles; };
     var getFilesToSave = function() { return openfiles.filter(function(f, i, _) { return !f.doc.isClean(); }); };
@@ -44,14 +49,12 @@ codesocket.factory('tabs', function($q, $rootScope, project, util) {
     };
     var selectFile = function(i) {
         angular.forEach(openfiles, function(f) { f.active = false; });
-        // [todo] bind file.doc to editor
         openfiles[i].active = true;
         $rootScope.$broadcast('activefilechanged', i, openfiles[i]);
     };
     var saveFile = function(i) {
-        var deferred = $q.defer();
-        // [todo] store file.doc.getValue() in file.entry
-        return deferred.promise;
+        var file = openfiles[i];
+        return actproject.writeFile(file.entry, file.doc.getValue());
     };
     var saveAllFiles = function() {
         var promises = [];
@@ -485,7 +488,7 @@ codesocket.factory('remotefile', function() {
 });
 
 
-// remotefile-factory
+// ftp-factory
 codesocket.factory('ftp', function() {
     return {};
 });

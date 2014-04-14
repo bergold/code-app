@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="codesocket">
+<html ng-app="codesocket" ng-csp>
     <head>
         
         <title>CodeSocket</title>
@@ -29,7 +29,7 @@
     </head>
     <body>
         
-        <div class="wrapper">
+        <div class="wrapper" ng-controller="MainCtrl">
             <div class="sidebar">
                 <div class="menubar">
                     <div class="entry" cs-menu="projects">
@@ -39,7 +39,26 @@
                 </div>
                 <div class="files">
                 </div>
-                <div class="tree">
+                <div class="tree" ng-controller="FiletreeCtrl">
+                    <div class="dir" ng-class="{'open': d.open}" ng-repeat="d in tree.folder" ng-include="'FileTree.html'"></div>
+                    <div class="entry" ng-repeat="f in tree.files">
+                        <span class="icon icon-{{cssIcon(f.name)}}"></span>
+                        <span class="label">{{f.name}}</span>
+                    </div>
+                    
+                    <script type="text/ng-template" id="FileTree.html">
+                        <div class="entry" ng-click="toggleDir(d)">
+                            <span class="icon" ng-class="{'icon-arrow-right': !d.open, 'icon-arrow-down': d.open}"></span>
+                            <span class="label" ng-bind="d.dir.name"></span>
+                        </div>
+                        <div class="subdir">
+                            <div class="dir" ng-class="{'open': d.open}" ng-repeat="d in d.folder" ng-include="'FileTree.html'"></div>
+                            <div class="entry" ng-repeat="f in d.files">
+                                <span class="icon icon-{{cssIcon(f.name)}}"></span>
+                                <span class="label">{{f.name}}</span>
+                            </div>
+                        </div>
+                    </script>
                 </div>
             </div>
             <div class="main">
@@ -62,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="content" id="editor">
+                <div class="content" id="editor" ng-controller="EditorCtrl">
                 </div>
                 <div class="statusbar">
                     

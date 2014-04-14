@@ -7,6 +7,33 @@
  *
  */
 
+codesocket.controller('MainCtrl', function($scope, tabs) {
+    
+});
+
+codesocket.controller('FiletreeCtrl', function($scope, tabs, util) {
+    function update() {
+        tabs.getFiletree().then(function(ft) {
+            $scope.tree = ft;
+        });
+    }
+    
+    $scope.cssIcon = function(fname) {
+        return util.getFileIcon(fname);
+    };
+    $scope.toggleDir = function(dir) {
+        dir.open = !dir.open;
+    };
+    
+    $scope.$on('projectchanged', update);
+});
+
+codesocket.controller('EditorCtrl', function($scope) {
+    var elm = angular.element("#editor");
+    var cm  = CodeMirror(elm, {
+        lineNumbers: true
+    });
+});
 
 codesocket.controller('ProjectsCtrl', function($scope, project) {
     $scope.projects = [];

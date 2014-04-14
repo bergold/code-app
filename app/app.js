@@ -24,12 +24,11 @@ codesocket.run(function($rootScope) {
 });
 
 // project functions
-codesocket.run(function($rootScope, storage, project) {
+codesocket.run(function($rootScope, storage, project, tabs) {
     $rootScope.selectproject = function(pname) {
         project.open(pname).then(function(p) {
             tabs.setProject(p);
             storage.set({lastproject:pname});
-            $rootScope.$broadcast('projectchanged', p);
         });
     };
 });

@@ -118,9 +118,6 @@ html, body {
 
 /* Editor
 ======================== */
-.no-editor #editor .CodeMirror {
-    visibility: hidden;
-}
 #editor .CodeMirror {
     position: absolute !important;
     top: 0;
@@ -237,10 +234,11 @@ html, body {
 }
 .tree .dir .subdir {
     margin-left: 20px;
-}
-.tree .dir.closed .subdir {
     height: 0;
     overflow: hidden;
+}
+.tree .dir.open .subdir {
+    height: auto;
 }
 
 /* Overlays
