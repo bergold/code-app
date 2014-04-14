@@ -30,7 +30,7 @@ codesocket.controller('FiletreeCtrl', function($scope, tabs, util) {
 
 codesocket.controller('EditorCtrl', function($scope) {
     var elm = angular.element("#editor");
-    var cm  = CodeMirror(elm, {
+    var cm  = CodeMirror(elm[0], {
         lineNumbers: true
     });
 });
