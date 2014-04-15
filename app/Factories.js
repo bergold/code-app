@@ -38,6 +38,9 @@ codesocket.factory('tabs', function($q, $rootScope, project, util) {
             nd.setValue(data);
             nd.markClean();
         });
+        nd.on('change', function() {
+            $rootScope.$broadcast('fileschanged');
+        });
         var tab = {
             doc: nd,
             entry: fileentry,
@@ -74,7 +77,7 @@ codesocket.factory('tabs', function($q, $rootScope, project, util) {
         getProject: getProject,
         setProject: setProject,
         
-        file: {
+        files: {
             all: getFiles,
             toSave: getFilesToSave,
             open: openFile,

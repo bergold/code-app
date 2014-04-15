@@ -1,3 +1,20 @@
+@charset "UTF-8";
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
+.ng-cloak, .x-ng-cloak,
+.ng-hide {
+  display: none !important;
+}
+
+ng\:form {
+  display: block;
+}
+
+.ng-animate-block-transitions {
+  transition:0s all!important;
+  -webkit-transition:0s all!important;
+}
+
 /* Defs:
  * @accent-color: 007AFF
  */
@@ -186,7 +203,7 @@ html, body {
     display: flex;
     flex-direction: row;
     position: relative;
-    height: 28px;
+    height: 22px;
 }
 .files .entry.active,
 .tree .entry.active {
@@ -217,10 +234,10 @@ html, body {
 .tree .entry .icon {
     display: block;
     flex: initial;
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
-    font-size: 16px;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 12px;
     text-align: center;
 }
 .files .entry .label,
@@ -228,8 +245,8 @@ html, body {
     display: block;
     flex: 1;
     padding: 0 10px;
-    height: 28px;
-    line-height: 28px;
+    height: 22px;
+    line-height: 22px;
     white-space: nowrap;
 }
 .tree .dir .subdir {
@@ -237,7 +254,7 @@ html, body {
     height: 0;
     overflow: hidden;
 }
-.tree .dir.open .subdir {
+.tree .dir.open > .subdir {
     height: auto;
 }
 

@@ -17,6 +17,16 @@
         <script type="text/javascript" src="lib/angular-1.2.16.js"></script>
         
         <script type="text/javascript" src="app/modules/angular-animate-1.2.16.js"></script>
+        <script type="text/javascript" src="app/modules/clike.js"></script>
+        <script type="text/javascript" src="app/modules/css.js"></script>
+        <script type="text/javascript" src="app/modules/htmlmixed.js"></script>
+        <script type="text/javascript" src="app/modules/javascript.js"></script>
+        <script type="text/javascript" src="app/modules/perl.js"></script>
+        <script type="text/javascript" src="app/modules/php.js"></script>
+        <script type="text/javascript" src="app/modules/ruby.js"></script>
+        <script type="text/javascript" src="app/modules/sass.js"></script>
+        <script type="text/javascript" src="app/modules/sql.js"></script>
+        <script type="text/javascript" src="app/modules/xml.js"></script>
         
         <script type="text/javascript" src="app/app.js"></script>
         
@@ -31,17 +41,23 @@
         
         <div class="wrapper" ng-controller="MainCtrl">
             <div class="sidebar">
-                <div class="menubar">
+                <div class="menubar" ng-controller="ProjectCtrl">
                     <div class="entry" cs-menu="projects">
-                        <span class="projectlabel">Kein Projekt gew&auml;hlt</span>
+                        <span class="projectlabel">{{project}}</span>
                         <span class="icon"></span>
                     </div>
                 </div>
-                <div class="files">
+                <div class="files" ng-controller="FilesCtrl">
+                    <div class="entry" ng-class="{'active':f.active}" ng-repeat="f in files" ng-click="selectfile(f)">
+                        <span class="icon icon-{{cssIcon(f.entry.name)}}"></span>
+                        <span class="label">{{f.entry.name}}</span>
+                        <span class="action" ng-hide="f.clean">save</span>
+                        <span class="action" ng-show="f.clean">close</span>
+                    </div>
                 </div>
                 <div class="tree" ng-controller="FiletreeCtrl">
-                    <div class="dir" ng-class="{'open': d.open}" ng-repeat="d in tree.folder" ng-include="'FileTree.html'"></div>
-                    <div class="entry" ng-repeat="f in tree.files">
+                    <div class="dir" ng-class="{'open': d.open}" ng-repeat="d in tree.folder | orderBy:'dir.name'" ng-include="'FileTree.html'"></div>
+                    <div class="entry" ng-repeat="f in tree.files | orderBy:'name'" ng-dblclick="openfile(f)">
                         <span class="icon icon-{{cssIcon(f.name)}}"></span>
                         <span class="label">{{f.name}}</span>
                     </div>
@@ -52,8 +68,8 @@
                             <span class="label" ng-bind="d.dir.name"></span>
                         </div>
                         <div class="subdir">
-                            <div class="dir" ng-class="{'open': d.open}" ng-repeat="d in d.folder" ng-include="'FileTree.html'"></div>
-                            <div class="entry" ng-repeat="f in d.files">
+                            <div class="dir" ng-class="{'open': d.open}" ng-repeat="d in d.folder | orderBy:'dir.name'" ng-include="'FileTree.html'"></div>
+                            <div class="entry" ng-repeat="f in d.files | orderBy:'name'" ng-dblclick="openfile(f)">
                                 <span class="icon icon-{{cssIcon(f.name)}}"></span>
                                 <span class="label">{{f.name}}</span>
                             </div>
