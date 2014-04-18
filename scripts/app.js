@@ -1,10 +1,4 @@
-require.config({
-    baseUrl: 'scripts/app',
-    paths: {
-        lib: '../lib',
-        mode: '../mode'
-    }
-});
+// this file is deprecated!
 
 require(['lib/jquery', 'tabs', 'settings', 'communication', 'ui'], function($, tabs, settings, cmd, ui) {
     

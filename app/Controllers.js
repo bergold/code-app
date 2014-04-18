@@ -7,31 +7,49 @@
  *
  */
 
-codesocket.controller('MainCtrl', function($scope, tabs) {
+codesocket.controller('MainCtrl', function($scope, tabs, util) {
     
-});
-
-codesocket.controller('FilesCtrl', function($scope, tabs, util) {
-    function update() {
-        $scope.files = tabs.files.all();
-        angular.forEach($scope.files, function(f, i) {
-            f.index = i;
-            f.clean = f.doc.isClean();
-        });
-    }
+    $scope.util = util;
     
-    $scope.files = [];
     
-    $scope.cssIcon = function(fname) {
-        return util.getFileIcon(fname);
+    // editor controll point
+    var elm = angular.element("#editor");
+    var cm  = CodeMirror(elm[0], {
+        lineNumbers: true
+    });
+    cm.on('change', function() {
+        tabs.files.check();
+        $scope.$digest();
+    });
+    tabs.onfile(function(doc) {
+        cm.swapDoc(doc);
+    });
+    
+    
+    // files controll point
+    $scope.files = tabs.files.all;
+    
+    $scope.openfile = function(entry) {
+        tabs.files.open(entry);
     };
-    
     $scope.selectfile = function(file) {
         tabs.files.select(file.index);
     };
+    $scope.savefile = function(file) {
+        tabs.files.save(file.index).then(function() {
+            console.log("save", "success");
+        }, function() {
+            console.log("save", "error");
+        });
+    };
+    $scope.closefile = function() {
+        
+    };
     
-    $scope.$on('activefilechanged', update);
-    $scope.$on('fileschanged', update);
+    
+    // project controll point
+       // $scope.project = null;
+    
 });
 
 codesocket.controller('FiletreeCtrl', function($scope, tabs, util) {
@@ -41,9 +59,6 @@ codesocket.controller('FiletreeCtrl', function($scope, tabs, util) {
         });
     }
     
-    $scope.cssIcon = function(fname) {
-        return util.getFileIcon(fname);
-    };
     $scope.toggleDir = function(dir) {
         dir.open = !dir.open;
     };
@@ -53,16 +68,6 @@ codesocket.controller('FiletreeCtrl', function($scope, tabs, util) {
     };
     
     $scope.$on('projectchanged', update);
-});
-
-codesocket.controller('EditorCtrl', function($scope) {
-    var elm = angular.element("#editor");
-    var cm  = CodeMirror(elm[0], {
-        lineNumbers: true
-    });
-    $scope.$on('activefilechanged', function(e, i, f) {
-        cm.swapDoc(f.doc);
-    });
 });
 
 codesocket.controller('ProjectCtrl', function($scope, tabs) {

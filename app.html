@@ -47,18 +47,20 @@
                         <span class="icon"></span>
                     </div>
                 </div>
-                <div class="files" ng-controller="FilesCtrl">
+                <div class="files">
                     <div class="entry" ng-class="{'active':f.active}" ng-repeat="f in files" ng-click="selectfile(f)">
-                        <span class="icon icon-{{cssIcon(f.entry.name)}}"></span>
+                        <span class="icon icon-{{util.getFileIcon(f.entry.name)}}"></span>
                         <span class="label">{{f.entry.name}}</span>
-                        <span class="action" ng-hide="f.clean">save</span>
-                        <span class="action" ng-show="f.clean">close</span>
+                        <div ng-switch="f.clean">
+                            <span class="action" ng-switch-when="true">close</span>
+                            <span class="action" ng-switch-when="false" ng-click="savefile(f)">save</span>
+                        </div>
                     </div>
                 </div>
                 <div class="tree" ng-controller="FiletreeCtrl">
                     <div class="dir" ng-class="{'open': d.open}" ng-repeat="d in tree.folder | orderBy:'dir.name'" ng-include="'FileTree.html'"></div>
                     <div class="entry" ng-repeat="f in tree.files | orderBy:'name'" ng-dblclick="openfile(f)">
-                        <span class="icon icon-{{cssIcon(f.name)}}"></span>
+                        <span class="icon icon-{{util.getFileIcon(f.name)}}"></span>
                         <span class="label">{{f.name}}</span>
                     </div>
                     
@@ -70,7 +72,7 @@
                         <div class="subdir">
                             <div class="dir" ng-class="{'open': d.open}" ng-repeat="d in d.folder | orderBy:'dir.name'" ng-include="'FileTree.html'"></div>
                             <div class="entry" ng-repeat="f in d.files | orderBy:'name'" ng-dblclick="openfile(f)">
-                                <span class="icon icon-{{cssIcon(f.name)}}"></span>
+                                <span class="icon icon-{{util.getFileIcon(f.name)}}"></span>
                                 <span class="label">{{f.name}}</span>
                             </div>
                         </div>
@@ -97,7 +99,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="content" id="editor" ng-controller="EditorCtrl">
+                <div class="content" id="editor">
                 </div>
                 <div class="statusbar">
                     

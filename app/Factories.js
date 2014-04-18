@@ -18,8 +18,8 @@
 // tabs-factory
 codesocket.factory('tabs', function($q, $rootScope, project, util) {
     
-    var openfiles  = [];
     var actproject = null;
+    var filetree   = null;
     
     var getProject = function() {
         return actproject;
@@ -29,35 +29,66 @@ codesocket.factory('tabs', function($q, $rootScope, project, util) {
         $rootScope.$broadcast('projectchanged', p);
     };
     
-    var getFiles       = function() { return openfiles; };
+    var getFiletree = function() {
+        return (actproject !== null) ? (filetree !== null ? filetree : actproject.getFiletree()) : false;
+    };
+    
+    
+    var openfiles = [];
+    var swapDoc   = angular.noop;
+    
+    var onFile = function(cb) {
+        swapDoc = cb;
+    };
+    
     var getFilesToSave = function() { return openfiles.filter(function(f, i, _) { return !f.doc.isClean(); }); };
+    var checkFiles = function() {
+        angular.forEach(openfiles, function(f, i) {
+            f.clean = f.doc.isClean();
+        });
+    };
     var openFile = function(fileentry) {
-        // [todo] check whether the file is already open
-        var nd = CodeMirror.Doc("", util.getMode(fileentry.name));
-        actproject.readFile(fileentry).then(function(data) {
-            nd.setValue(data);
-            nd.markClean();
+        var tab;
+        angular.forEach(openfiles, function(f, i) {
+            if (f.entry.fullPath == fileentry.fullPath) {
+                selectFile(f.index);
+                tab = f;
+            }
         });
-        nd.on('change', function() {
-            $rootScope.$broadcast('fileschanged');
-        });
+        var deferred = $q.defer();
+        if (tab) {
+            deferred.resolve(tab);
+            return deferred.promise;
+        }
         var tab = {
-            doc: nd,
-            entry: fileentry,
-            active: false
+            doc:    null,
+            entry:  fileentry,
+            active: false,
+            clean:  true,
+            index:  -1
         };
         var i = openfiles.push(tab) -1;
-        selectFile(i);
-        return tab;
+        tab.index = i;
+        actproject.readFile(fileentry).then(function(data) {
+            tab.doc = CodeMirror.Doc(data, util.getMode(fileentry.name));
+            selectFile(i);
+            deferred.resolve(tab);
+        });
+        return deferred.promise;
     };
     var selectFile = function(i) {
         angular.forEach(openfiles, function(f) { f.active = false; });
         openfiles[i].active = true;
-        $rootScope.$broadcast('activefilechanged', i, openfiles[i]);
+        swapDoc(openfiles[i].doc);
     };
     var saveFile = function(i) {
         var file = openfiles[i];
-        return actproject.writeFile(file.entry, file.doc.getValue());
+        if (file.doc.isClean())
+            return true;
+        return actproject.writeFile(file.entry, file.doc.getValue()).then(function() {
+            file.doc.markClean();
+            return true;
+        });
     };
     var saveAllFiles = function() {
         var promises = [];
@@ -71,23 +102,23 @@ codesocket.factory('tabs', function($q, $rootScope, project, util) {
         openfiles.splice(i, 1);
     };
     
-    var getFiletree = function() { return actproject !== null ? actproject.getFiletree() : false };
-    
     return {
-        getProject: getProject,
-        setProject: setProject,
+        getProject:  getProject,
+        setProject:  setProject,
+        getFiletree: getFiletree,
+        
+        onfile: onFile,
         
         files: {
-            all: getFiles,
-            toSave: getFilesToSave,
-            open: openFile,
-            select: selectFile,
-            save: saveFile,
+            all:     openfiles,
+            toSave:  getFilesToSave,
+            check:   checkFiles,
+            open:    openFile,
+            select:  selectFile,
+            save:    saveFile,
             saveAll: saveAllFiles,
-            close: closeFile
-        },
-        
-        getFiletree: getFiletree
+            close:   closeFile
+        }
     };
     
 });
@@ -186,7 +217,7 @@ codesocket.factory('project', function($q, storage, localfile, remotefile, util)
         if (this._config.remote) {
             
         } else {
-            
+            return localfile.writeFile(etr, text);
         }
     };
     
@@ -450,17 +481,20 @@ codesocket.factory('localfile', function($q) {
         
         writeFile: function(etr, text) {
             var deferred = $q.defer();
-            etr.createWriter(function(writer) {
-                writer.onwriteend = function() {
-                    deferred.resolve(true);
-                };
-                writer.onerror = function(e) {
-                    deferred.reject(e);
-                };
-                
-                var bb = new BlobBuilder();
-                bb.append(text);
-                writer.write(bb.getBlob('text/plain'));
+            chrome.fileSystem.getWritableEntry(etr, function(wetr) {
+                var blob = new Blob([text], {type: 'text/plain'});
+                wetr.createWriter(function(writer) {
+                    writer.onwrite = function() {
+                        writer.onwrite = function() {
+                            deferred.resolve(true);
+                        };
+                        writer.write(blob);
+                    };
+                    writer.onerror = function(e) {
+                        deferred.reject(e);
+                    };
+                    writer.truncate(blob.size);
+                });
             });
             return deferred.promise;
         }
