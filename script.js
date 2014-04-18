@@ -12,7 +12,7 @@ ghHome.factory('board', function($q, $http) {
   };
 });
 
-ghHome.controller('ReposCtrl', function($scope, board) {
+ghHome.controller('ProjectCtrl', function($scope, board) {
   $scope.board = [];
   repos.getStories().then(function(s) {
     $scope.board = s;
