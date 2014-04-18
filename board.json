@@ -1,10 +1,10 @@
 [
   {
-    "name": "",
-    "description": "",
+    "name": "FileTree Loading Animation",
+    "description": "When the filetree is loading, a loading animation should appear",
     "tasks": [
-      "",
-      ""
+      "add css code for spinner",
+      "set dom state to loading"
     ]
   }
 ]
