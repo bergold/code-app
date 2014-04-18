@@ -1,9 +1,35 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>CodeSocket-Projectpage</title>
-  </head>
-  <body>
-    <h1>CodeSocket-Projectpage</h1>
-  </body>
+<html ng-app="ghHome">
+    <head>
+        <title>bergold on github</title>
+        
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+        
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300italic' rel='stylesheet' type='text/css' />
+        <link href="../icons.css" type="text/css" rel="stylesheet" media="all" />
+        <link href="../style.css" type="text/css" rel="stylesheet" media="all" />
+        
+        <script type="text/javascript" src="https://code.angularjs.org/1.3.0-beta.5/angular.min.js"></script>
+        <script type="text/javascript" src="https://code.angularjs.org/1.3.0-beta.5/angular-animate.min.js"></script>
+        <script type="text/javascript" src="script.js"></script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <header>
+                <h1>bergold on github / code-app</h1>
+            </header>
+            <div class="banner">
+                <h2>Projectboard for CodeSocket</h2>
+            </div>
+            <div class="boxes" ng-controller="ProjectCtrl">
+                <div class="box" ng-repeat="story in board">
+                    <div class="title">{{story.name}}</div>
+                    <div class="desc">{{story.description}}</div>
+                    <div class="foot">
+                        <div class="item icon icon-github" ng-repeat="task in story.tasks">{{task}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
