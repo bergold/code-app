@@ -1,7 +1,7 @@
 [
   {
     "name": "Folder icons",
-    "description": "Now: the icon is an arrow (->)\nWish: the icon should only be an triangle (>)",
+    "description": "Now: the icon is an arrow (->)<br />Wish: the icon should only be an triangle (>)",
     "tasks": [
       "change icon-arrow-right",
       "change icon-arrow-down"
