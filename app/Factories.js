@@ -45,6 +45,7 @@ codesocket.factory('tabs', function($q, $rootScope, project, util) {
     var checkFiles = function() {
         angular.forEach(openfiles, function(f, i) {
             f.clean = f.doc.isClean();
+            f.index = i;
         });
     };
     var openFile = function(fileentry) {
@@ -87,6 +88,7 @@ codesocket.factory('tabs', function($q, $rootScope, project, util) {
             return true;
         return actproject.writeFile(file.entry, file.doc.getValue()).then(function() {
             file.doc.markClean();
+            checkFiles();
             return true;
         });
     };
@@ -100,6 +102,8 @@ codesocket.factory('tabs', function($q, $rootScope, project, util) {
     var closeFile = function(i) {
         // [todo] check whether the file is clean
         openfiles.splice(i, 1);
+        checkFiles();
+        swapDoc(false);
     };
     
     return {

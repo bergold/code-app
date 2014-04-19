@@ -52,7 +52,7 @@
                         <span class="icon icon-{{util.getFileIcon(f.entry.name)}}"></span>
                         <span class="label">{{f.entry.name}}</span>
                         <div ng-switch="f.clean">
-                            <span class="action" ng-switch-when="true">close</span>
+                            <span class="action" ng-switch-when="true" ng-click="closefile(f)">close</span>
                             <span class="action" ng-switch-when="false" ng-click="savefile(f)">save</span>
                         </div>
                     </div>
@@ -98,6 +98,9 @@
                         <div class="btn icon icon-close" ng-click="close()">
                         </div>
                     </div>
+                </div>
+                <div class="notifer" ng-controller="NotiferCtrl">
+                    <div class="notification" ng-repeat="n in notifications">{{n.msg}}</div>
                 </div>
                 <div class="content" id="editor">
                 </div>

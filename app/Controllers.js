@@ -7,7 +7,7 @@
  *
  */
 
-codesocket.controller('MainCtrl', function($scope, tabs, util) {
+codesocket.controller('MainCtrl', function($scope, $rootScope, tabs, util) {
     
     $scope.util = util;
     
@@ -15,14 +15,21 @@ codesocket.controller('MainCtrl', function($scope, tabs, util) {
     // editor controll point
     var elm = angular.element("#editor");
     var cm  = CodeMirror(elm[0], {
-        lineNumbers: true
+        lineNumbers: true,
+        readOnly:    true
     });
     cm.on('change', function() {
         tabs.files.check();
         $scope.$digest();
     });
     tabs.onfile(function(doc) {
-        cm.swapDoc(doc);
+        if (false!==doc) {
+            cm.setOption('readOnly', false);
+            cm.swapDoc(doc);
+        } else {
+            cm.setOption('readOnly', true);
+            cm.swapDoc(new CodeMirror.Doc('', ''));
+        }
     });
     
     
@@ -36,26 +43,39 @@ codesocket.controller('MainCtrl', function($scope, tabs, util) {
         tabs.files.select(file.index);
     };
     $scope.savefile = function(file) {
-        tabs.files.save(file.index).then(function() {
-            console.log("save", "success");
+        var pr = tabs.files.save(file.index).then(function() {
+            return {
+                msg: "File saved",
+                type: "success"
+            };
         }, function() {
-            console.log("save", "error");
+            return {
+                msg: "File save failed",
+                type: "error"
+            };
+        });
+        $rootScope.$broadcast('notify', {
+            msg: "Saving file",
+            type: "process",
+            promise: pr
         });
     };
-    $scope.closefile = function() {
-        
+    $scope.closefile = function(file) {
+        tabs.files.close(file.index);
     };
-    
-    
-    // project controll point
-       // $scope.project = null;
     
 });
 
-codesocket.controller('FiletreeCtrl', function($scope, tabs, util) {
+codesocket.controller('FiletreeCtrl', function($scope, $rootScope, tabs, util) {
     function update() {
-        tabs.getFiletree().then(function(ft) {
+        var pr = tabs.getFiletree().then(function(ft) {
             $scope.tree = ft;
+            return undefined;
+        });
+        $rootScope.$broadcast('notify', {
+            msg: "Loading FileTree",
+            type: "process",
+            promise: pr
         });
     }
     
@@ -68,6 +88,36 @@ codesocket.controller('FiletreeCtrl', function($scope, tabs, util) {
     };
     
     $scope.$on('projectchanged', update);
+});
+
+codesocket.controller('NotiferCtrl', function($scope, $rootScope, $timeout) {
+    $scope.notifications = [];
+    function update() {
+        angular.forEach($scope.notifications, function(a, i) {
+            a.index = i;
+        });
+    }
+    function add(data) {
+        $scope.notifications.push(data);
+        update();
+        if (angular.isDefined(data.promise)) {
+            data.promise.then(function(msg) {
+                msg && add(msg);
+                close(data);
+            });
+        } else {
+            var duration = data.duration || 2000;
+            $timeout(close.bind(null, data), duration, false);
+        }
+    }
+    function close(d) {
+        update();
+        $scope.notifications.splice(d.index, 1);
+    }
+    $scope.close = close;
+    $rootScope.$on('notify', function(evt, data) {
+        add(data);
+    });
 });
 
 codesocket.controller('ProjectCtrl', function($scope, tabs) {

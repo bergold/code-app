@@ -165,6 +165,31 @@ html, body {
     color: #fff;
 }
 
+/* Notifer
+======================== */
+.notifer {
+    display: block;
+    height: 0px;
+    overflow: visible;
+    z-index: 100;
+}
+.notification {
+    display: block;
+    padding: 0 20px;
+    height: 54px;
+    line-height: 54px;
+    overflow: hidden;
+    background: #222;
+    color: #fff;
+}
+.notification.ng-enter {
+    height: 0px;
+    transition: all 0.5s ease;
+}
+.notification.ng-enter-active {
+    height: 54px;
+}
+
 /* Buttons
 ======================== */
 .btn {
@@ -208,6 +233,13 @@ html, body {
 .files .entry.active,
 .tree .entry.active {
     color: rgba(0, 122, 255, 0.8);
+}
+.files .entry .action {
+    line-height: 22px;
+    color: #888;
+}
+.files .entry .action:hover {
+    color: #aaa;
 }
 .files .entry.active:before,
 .tree .entry.active:before {
